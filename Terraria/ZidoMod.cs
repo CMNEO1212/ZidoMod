@@ -264,7 +264,7 @@ namespace Terraria
 
             if (mouseMode == 1)
             {
-                int index = Projectile.NewProjectile(TargetX, TargetY, -brushSize, 0, brushType, 999999, 0.0f, 0xff);
+                int index = Projectile.NewProjectile(TargetX, TargetY, brushSize, 0, brushType, 999999, 0.0f, 0xff);
                 if (Main.netMode == 1)
                 {
                     NetMessage.SendData(0x1b, -1, -1, "", index, 0f, 0f, 0f, 0);
@@ -487,9 +487,9 @@ namespace Terraria
                         if (length == 2)
                             pickupRange = Convert.ToInt16(args[1]);
                         else if (pickupRange > 38)
-                            tileRange = 38;
+                            pickupRange = 38;
                         else
-                            tileRange = 9999;
+                            pickupRange = 9999;
                         return true;
 
                     case "track":

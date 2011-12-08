@@ -40,7 +40,6 @@
     <Reference Include="Microsoft.Xna.Framework.Xact" />
     <Reference Include="System.Windows.Forms" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Global.cs" />
     <Compile Include="Terraria\Projectile.cs" />
     <Compile Include="Terraria\Cloud.cs" />
     <Compile Include="Terraria\Star.cs" />
