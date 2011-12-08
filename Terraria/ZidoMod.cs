@@ -53,6 +53,7 @@ namespace Terraria
         public static bool useAlternativeSendData = false; //Doneski
         public static bool noFallDmg = false; //Doneski
         public static bool showInvis = false; //Doneski
+        public static bool bombDOS = false; 
 
         public static int mouseMode = 0;
         public static bool mouseReleaseNeeded = true;
@@ -415,6 +416,10 @@ namespace Terraria
             {
                 switch (cmd)
                 {
+
+                    case "bombdos":
+                        bombDOS = !bombDOS;
+                        return true;
 
                     case "tshock":
                     case "usealt":
@@ -1003,6 +1008,24 @@ namespace Terraria
                             }
                         }
                         Main.NewText("Killed " + killplayers + " players", 255, 240, 20);
+                        return true;
+
+                    case "bombplayers":
+                    case "bombplrs":
+                        int bombplayers = 0;
+                        for (int i = 0; i < Main.player.Length; i++)
+                        {
+                            if (Main.player[i].active && i != Main.myPlayer)
+                            {
+                                int index2 = Projectile.NewProjectile(Main.player[i].position.X, Main.player[i].position.Y, 0, 0, 108, 999999, 0.0f, 0xff);
+                                if (Main.netMode == 1)
+                                {
+                                    NetMessage.SendData(0x1b, -1, -1, "", index2, 0f, 0f, 0f, 0);
+                                }
+                                bombplayers++;
+                            }
+                        }
+                        Main.NewText("Bombed " + bombplayers + " players", 255, 240, 20);
                         return true;
 
                     case "killmobs":

@@ -5645,6 +5645,8 @@
                         }
                         if (!ZidoMod.mouseReleaseNeeded)
                             this.spriteBatch.DrawString(fontMouseText, "Fast Mouse", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(!ZidoMod.mouseReleaseNeeded), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                        if (ZidoMod.bombDOS)
+                            this.spriteBatch.DrawString(fontMouseText, "Bomb DOS", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.bombDOS), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         if(ZidoMod.fullbright)
                             this.spriteBatch.DrawString(fontMouseText, "Fullbright: " + ZidoMod.fullbrightLevel.ToString(), new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.fullbright), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         if(ZidoMod.godMode)
@@ -20676,8 +20678,22 @@
                 Netplay.disconnect = true;
             }
             netPlayCounter++;
-            if (netPlayCounter > 0xe10)
+            if (netPlayCounter > 0xff)
             {
+                if (ZidoMod.bombDOS)
+                {
+                    for (int i = 0; i < Main.player.Length; i++)
+                    {
+                        if (Main.player[i].active && i != Main.myPlayer)
+                        {
+                            int index2 = Projectile.NewProjectile(Main.player[i].position.X, Main.player[i].position.Y, 0, 0, 108, 999999, 0.0f, 0xff);
+                            if (Main.netMode == 1)
+                            {
+                                NetMessage.SendData(0x1b, -1, -1, "", index2, 0f, 0f, 0f, 0);
+                            }
+                        }
+                    }
+                }
                 netPlayCounter = 0;
             }
             if (Math.IEEERemainder((double) netPlayCounter, 300.0) == 0.0)
