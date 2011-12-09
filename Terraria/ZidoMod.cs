@@ -1283,7 +1283,7 @@ namespace Terraria
                             return false;
 
                     case "repeat":
-                        if (cmd == "repeat") return false;
+                        if (lastCommand == "repeat") return false;
                         if (lastCommand == null) return false;
                         string full2 = lastCommand.Substring(1);
                         string[] args2 = full2.Split(' ');
