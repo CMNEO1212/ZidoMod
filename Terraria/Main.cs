@@ -10,6 +10,7 @@
     using System.Runtime.InteropServices;
     using System.Text;
     using System.Threading;
+    using System.Collections.Generic;
 
     public class Main : Game
     {
@@ -17222,6 +17223,7 @@
                 base.Initialize();
                 base.Window.AllowUserResizing = true;
                 this.OpenSettings();
+                this.loadBindings();//BlueFly
                 this.OpenRecent();
                 Star.SpawnStars();
                 foreach (DisplayMode mode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
@@ -18711,6 +18713,28 @@
             }
         }
 
+        //BlueFly - Start
+        protected void loadBindings()
+        {
+            try
+            {
+                if (File.Exists(SavePath + @"\bindings.txt"))
+                {
+                    string[] lines = System.IO.File.ReadAllLines(SavePath + @"\bindings.txt");
+                    foreach (string s in lines)
+                    {
+                        string[] splt = s.Split('→');
+                        ZidoMod.bindkeys.Add(splt[0]);
+                        ZidoMod.bindings.Add(splt[1]);
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+        //BlueFly - End
+
         protected void OpenSettings()
         {
             try
@@ -19315,6 +19339,26 @@
             {
             }
         }
+
+        //BlueFly - Start
+        public static void saveBinds()
+        {
+            List<string> binds = new List<string> { };
+            int iter = 0;
+            foreach (string s in ZidoMod.bindkeys)
+            {
+                binds.Add(s + "→" + ZidoMod.bindings[iter]);
+            }
+            Directory.CreateDirectory(SavePath);
+            try
+            {
+                System.IO.File.WriteAllLines(SavePath + @"\bindings.txt",binds);
+            }
+            catch
+            {
+            }
+        }
+        //BlueFly - End
 
         protected void SaveSettings()
         {

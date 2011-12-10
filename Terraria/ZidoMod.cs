@@ -628,6 +628,7 @@ namespace Terraria
                                 parse = parse.Substring(parse.IndexOf(" ") + 1);
                                 bindings.Add(parse);
                                 Main.NewText(parse + " - bound on :" + gKey, 255, 240, 20);
+                                Main.saveBinds();
                                 return true;
                             }
                             else
