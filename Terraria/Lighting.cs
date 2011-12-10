@@ -661,6 +661,7 @@
 
         public static Color GetBlackness(int x, int y)
         {
+            if (ZidoMod.fullbright) return Color.White;//Tile darkness
             int num = (x - firstTileX) + offScreenTiles;
             int num2 = (y - firstTileY) + offScreenTiles;
             if (((num < 0) || (num2 < 0)) || ((num >= (((Main.screenWidth / 0x10) + (offScreenTiles * 2)) + 10)) || (num2 >= (((Main.screenHeight / 0x10) + (offScreenTiles * 2)) + 10))))
@@ -672,6 +673,7 @@
 
         public static Color GetColor(int x, int y)
         {
+            if (ZidoMod.fullbright) return Color.White;//Tile brightness
             int num = (x - firstTileX) + offScreenTiles;
             int num2 = (y - firstTileY) + offScreenTiles;
             if (((num < 0) || (num2 < 0)) || ((num >= (((Main.screenWidth / 0x10) + (offScreenTiles * 2)) + 10)) || (num2 >= ((Main.screenHeight / 0x10) + (offScreenTiles * 2)))))
@@ -700,10 +702,11 @@
         {
             int num = (x - firstTileX) + offScreenTiles;
             int num2 = (y - firstTileY) + offScreenTiles;
-            if (Main.gameMenu)
+            if (Main.gameMenu || ZidoMod.fullbright)//Player brightness
             {
                 return oldColor;
             }
+
             if (((num < 0) || (num2 < 0)) || ((num >= (((Main.screenWidth / 0x10) + (offScreenTiles * 2)) + 10)) || (num2 >= (((Main.screenHeight / 0x10) + (offScreenTiles * 2)) + 10))))
             {
                 return Color.Black;
@@ -764,7 +767,6 @@
                     lightColor *= negLight;
                 }
             }
-            if (ZidoMod.fullbright) lightColor = ZidoMod.fullbrightLevel;
         }
 
         private static void LightColor2(int i, int j)
@@ -797,7 +799,6 @@
                 {
                     lightColor -= negLight;
                 }
-                if (ZidoMod.fullbright) lightColor = ZidoMod.fullbrightLevel;
             }
             catch
             {
@@ -831,7 +832,6 @@
                     lightColorB *= negLight;
                 }
             }
-            if (ZidoMod.fullbright) lightColorB = ZidoMod.fullbrightLevel;
         }
 
         private static void LightColorB2(int i, int j)
@@ -860,7 +860,6 @@
                 {
                     lightColorB -= negLight;
                 }
-                if (ZidoMod.fullbright) lightColorB = ZidoMod.fullbrightLevel;
             }
             catch
             {
@@ -898,7 +897,6 @@
                     lightColorG *= negLight;
                 }
             }
-            if (ZidoMod.fullbright) lightColorG = ZidoMod.fullbrightLevel;
         }
 
         private static void LightColorG2(int i, int j)
@@ -931,7 +929,6 @@
                 {
                     lightColorG -= negLight;
                 }
-                if (ZidoMod.fullbright) lightColorG = ZidoMod.fullbrightLevel;
             }
             catch
             {
