@@ -661,6 +661,11 @@ namespace Terraria
                             {
                                 return false;
                             }
+                            if (bindkeys.Count < 1)
+                            {
+                                Main.NewText("No binds found.", 255, 240, 20);
+                                return true;
+                            }
                             string num = "0";
                             if (length == 2) num = args[1];
                             List<string> snd = new List<string> { };
