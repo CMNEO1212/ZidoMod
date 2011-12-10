@@ -471,7 +471,8 @@ namespace Terraria
                             if (bindkeys.Contains(gKey))
                             {
                                 int ind = bindkeys.IndexOf(gKey);
-                                bindings.RemoveRange(ind, 2);
+                                bindings.RemoveAt(ind);
+                                bindkeys.RemoveAt(ind);
                                 Main.NewText("Key unbound.", 255, 240, 20);
                                 return true;
                             }
