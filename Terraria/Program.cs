@@ -6,6 +6,9 @@
 
     internal static class Program
     {
+
+        [STAThread]
+
         private static void Main(string[] args)
         {
             Terraria.Main main = new Terraria.Main();
@@ -77,6 +80,12 @@
                     main.Dispose();
                 }
             }
+        }
+        public static string getClipboardText()
+        {
+            string text = "";
+            if (Clipboard.ContainsText()) text = Clipboard.GetText();
+            return text;
         }
     }
 }
