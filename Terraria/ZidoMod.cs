@@ -98,6 +98,7 @@ namespace Terraria
                                                                 "setstats",
                                                                 "repeat - Repeat the last command"
                                                             };
+        public static bool showFps = true; //BlueFly
         public static List<string> bindings = new List<string> { }; //BlueFly
         public static List<string> bindkeys = new List<string> { }; //BlueFly
         public static bool cmdLimit = false; //BlueFly
@@ -512,19 +513,31 @@ namespace Terraria
                 
                     //BlueFly - Start
 
+                    case "fps":
+                    case "showfps":
+                        showFps = !showFps;
+                        return true;
+
                     case "help":
                         {
                             if (length > 2)
                             {
                                 return false;
                             }
-                            int helpPage;
-                            bool isInt = int.TryParse(args[1], out helpPage);
-                            if (!isInt)
+                            int helpPage = 0;
+                            if (length > 1)
                             {
-                                helpPage = 1;
+                                bool isInt = int.TryParse(args[1], out helpPage);
+                                if (!isInt)
+                                {
+                                    helpPage = 0;
+                                }
+                                else
+                                {
+                                    helpPage -= 1;
+                                }
                             }
-                            helpPage -= 1;
+                            if (helpPage < 0) helpPage = 0;
                             int start = helpPage * 5;
                             if (start > helptxt.Count - 1)
                             {
@@ -617,7 +630,7 @@ namespace Terraria
                         {
                             if (length < 3) return false;
                             string gKey = args[1].ToUpper();
-                            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+                            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "F7", "F8", "F9", "F10", "F11" };
                             List<string> remove = new List<string>(args);
                             usedKeys.AddRange(bindkeys.ToArray());
                             if (!usedKeys.Contains(gKey))

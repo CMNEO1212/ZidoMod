@@ -4906,7 +4906,7 @@
             {
                 num = screenHeight - 0x18;
             }
-            this.spriteBatch.DrawString(fontMouseText, "ZidoMod" + (!chatMode ? " (By Zidonuke)  FPS: " + str + " " + debugWords : ""), new Vector2(4f, (float)num), new Color(mouseTextColor, mouseTextColor, mouseTextColor, mouseTextColor), 0f, new Vector2(), (float)0.9f, SpriteEffects.None, 0f);
+            this.spriteBatch.DrawString(fontMouseText, "ZidoMod" + (!chatMode && ZidoMod.showFps ? " (By Zidonuke)  FPS: " + str + " " + debugWords : ""), new Vector2(4f, (float)num), new Color(mouseTextColor, mouseTextColor, mouseTextColor, mouseTextColor), 0f, new Vector2(), (float)0.9f, SpriteEffects.None, 0f);
         }
 
         protected void DrawGhost(Player drawPlayer)
@@ -18716,7 +18716,7 @@
         //BlueFly - Start
         protected void loadBindings()
         {
-            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
+            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "F7", "F8", "F9", "F10", "F11"};
             try
             {
                 if (File.Exists(SavePath + @"\bindings.txt"))
