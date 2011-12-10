@@ -19348,6 +19348,7 @@
             foreach (string s in ZidoMod.bindkeys)
             {
                 binds.Add(s + "→" + ZidoMod.bindings[iter]);
+                ++iter;
             }
             Directory.CreateDirectory(SavePath);
             try
