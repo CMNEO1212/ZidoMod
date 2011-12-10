@@ -15,6 +15,7 @@ namespace Terraria
                                                                 "bombdos - create an explosion at every player (inc. npc's)",
                                                                 "tshock , usealt", "ui , gui - toggle diplay off active features",
                                                                 "fullbright , brightness , fb - turn off lighting",
+                                                                "fbcolor - Change the color of fullbright",
                                                                 "noclip , nc - movement wihtout clipping",
                                                                 "accurate , accurateplayers - show player at accurate co-ords",
                                                                 "freecam , outofbody - move camera instead of player",
@@ -107,7 +108,7 @@ namespace Terraria
         public static List<string> bindkeys = new List<string> { }; //BlueFly
         public static bool cmdLimit = false; //BlueFly
         public static bool fullbright = false; //Doneski
-        public static float fullbrightLevel = 0.8f; //Doneski
+        public static Color fullbrightcolor = Color.White;//cracker64
         public static bool noClip = false; //Doneski
         public static bool accuratePlayers = false; //Doneski
         public static bool freeCam = false; //Doneski
@@ -579,7 +580,7 @@ namespace Terraria
                         {
                             cmdLimit = false; //BlueFly
                             fullbright = false; //Doneski
-                            fullbrightLevel = 0.8f; //Doneski
+                            fullbrightcolor = Color.White; //cracker64
                             noClip = false; //Doneski
                             accuratePlayers = false; //Doneski
                             freeCam = false; //Doneski
@@ -743,10 +744,25 @@ namespace Terraria
                     case "fullbright":
                     case "brightness":
                     case "fb":
-                        if (length == 2)
-                            fullbrightLevel = Convert.ToSingle(args[1]);
+                        fullbright = !fullbright;
+                        return true;
+                    case "fbcolor":
+                        if (length == 4)
+                        {
+                            byte R = 255;
+                            byte G = 255;
+                            byte B = 255;
+                            byte.TryParse(args[1], out R);
+                            byte.TryParse(args[2], out G);
+                            byte.TryParse(args[3], out B);
+                            fullbrightcolor.R = R;
+                            fullbrightcolor.G = G;
+                            fullbrightcolor.B = B;
+                        }
                         else
-                            fullbright = !fullbright;
+                        {
+                            Main.NewText("Usage: -fbcolor [R] [G] [B]  (0-255 please)", 255, 240, 20);
+                        }
                         return true;
 
                     case "noclip":
