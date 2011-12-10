@@ -1134,6 +1134,11 @@ namespace Terraria
                             brushSize = wallSize;
                         else
                             brushSize = 1;
+                        if (brushType >= Main.maxWallTypes || brushType < 0)
+                        {
+                            Main.NewText("Invalid wall type.", 255, 240, 20);
+                            return true;
+                        }
                         mouseMode = 3;
                         Main.NewText("Wall brush enabled: " + wallType.ToString() + " (" + wallSize.ToString() + ")", 255, 240, 20);
                         if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
