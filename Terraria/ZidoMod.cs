@@ -1574,7 +1574,7 @@ namespace Terraria
                         int clonetarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (clonetarget < 0)
                         {
-                            Main.NewText("Player not found!");
+                            Main.NewText("Player not found!", 255, 240, 20);
                             return true;
                         }
                         Main.player[Main.myPlayer].armor = Main.player[clonetarget].armor;
@@ -1638,7 +1638,7 @@ namespace Terraria
                         if (healtarget < 0)
                         {
                             Main.NewText("Player not found!", 255, 20, 20);
-                            return ftrue;
+                            return true;
                         }
                         for (int i = 0; i < 10; i++)
                         {
