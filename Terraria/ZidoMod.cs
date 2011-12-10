@@ -1600,6 +1600,11 @@ namespace Terraria
                             Main.NewText("Command Failed", 255, 240, 20);
                         }
                         return true;
+                    case "say":
+                        string saytext = string.Join(" ", args);
+                        saytext = saytext.Remove(0, 4);
+                        NetMessage.SendData(0x19, -1, -1, saytext, Main.myPlayer, 0f, 0f, 0f, 0);
+                        return true;
 
                     default:
                         return false;
