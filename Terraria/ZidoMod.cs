@@ -921,6 +921,7 @@ namespace Terraria
                         int shoot;
                         if (int.TryParse(args[1], out shoot))
                         {
+                            Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].shoot = shoot;
                             Main.NewText("Shoot set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].shoot, 255, 240, 20);
                             return true;
                         }
@@ -931,6 +932,7 @@ namespace Terraria
                         int ammo;
                         if (int.TryParse(args[1], out ammo))
                         {
+                            Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].ammo = ammo;
                             Main.NewText("Ammo set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].ammo, 255, 240, 20);
                             return true;
                         }
@@ -941,6 +943,7 @@ namespace Terraria
                         int shootSpeed;
                         if (int.TryParse(args[1], out shootSpeed))
                         {
+                            Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].shootSpeed = shootSpeed;
                             Main.NewText("ShootSpeed set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].shootSpeed, 255, 240, 20);
                             return true;
                         }
