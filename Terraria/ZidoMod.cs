@@ -426,6 +426,71 @@ namespace Terraria
                         cmdLimit = !cmdLimit;
                         return true;
 
+                    case "wipe":
+                        {
+                            cmdLimit = false; //BlueFly
+                            fullbright = false; //Doneski
+                            fullbrightLevel = 0.8f; //Doneski
+                            noClip = false; //Doneski
+                            accuratePlayers = false; //Doneski
+                            freeCam = false; //Doneski
+                            godMode = false; //Doneski
+                            undead = false; //Doneski
+                            infiniteMana = false; //Doneski
+                            tileRange = 4; //Doneski
+                            tracking = false; //Doneski
+                            infiniteRockets = false; //Doneski
+                            slowFall = false; //Doneski
+                            waterWalk = false; //Doneski
+                            infiniteBreath = false; //Doneski
+                            thorns = false; //Doneski
+                            gravityControl = false; //Doneski
+                            noKnockback = false; //Doneski
+                            speedHack = 1f; //Doneski
+                            autoReuse = false; //Doneski
+                            infiniteStack = false; //Doneski
+                            infiniteJump = false; //Doneski
+                            fastUse = 1; //Doneski
+                            noAnimateSend = false; //Doneski
+                            noProjectileSend = false; //Doneski
+                            noMovementSend = false;
+                            capNetStats = false; //Doneski
+                            forceMaxStack = false; //Doneski
+                            GPSDisplay = true; //Doneski
+                            flashlight = false; //Doneski
+                            showAllRecipes = false; //Doneski
+                            freeCrafting = false; //Doneski
+                            disableDebuffs = false; //Doneski
+                            allowRemoveDebuffs = true; //Doneski
+                            pickupRange = 38; //Doneski
+                            instantRespawn = false; //Doneski
+                            maxRespawn = false; //Doneski
+                            invisible = false; //Doneski
+                            showUI = true; //Doneski
+                            showRadar = true; //Doneski
+                            superJump = false; //Doneski
+                            uberDefense = false; //Doneski
+                            bypassNetMode = false; //Doneski
+                            useAlternativeSendData = false; //Doneski
+                            noFallDmg = false; //Doneski
+                            showInvis = false; //Doneski
+                            bombDOS = false;
+
+                            mouseMode = 0;
+                            mouseReleaseNeeded = true;
+                            brushType = 0;
+                            brushSize = 0;
+                            brushExtra = 0;
+
+                            followMode = 0;
+                            followTarget = 0;
+
+                            lastCommand = null;
+
+                            Main.NewText("Settings cleared.", 255, 240, 20);
+                            return true;
+                        }
+
                     case "bind":
                         {
                             if (length < 3) return false;
