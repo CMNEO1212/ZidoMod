@@ -5643,6 +5643,8 @@
                             }
                             this.spriteBatch.DrawString(fontMouseText, "MouseClick: " + toolText, new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.mouseMode > 0), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         }
+                        if (ZidoMod.cmdLimit)
+                            this.spriteBatch.DrawString(fontMouseText, "Safe mode", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.disableDebuffs), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         if (!ZidoMod.mouseReleaseNeeded)
                             this.spriteBatch.DrawString(fontMouseText, "Fast Mouse", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(!ZidoMod.mouseReleaseNeeded), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         if (ZidoMod.bombDOS)

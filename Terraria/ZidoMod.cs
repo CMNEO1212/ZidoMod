@@ -8,6 +8,8 @@ namespace Terraria
 {
 	class ZidoMod
 	{
+        public static List<string> bindings = new List<string> { }; //BlueFly
+        public static List<string> bindkeys = new List<string> { }; //BlueFly
         public static bool cmdLimit = false; //BlueFly
         public static bool fullbright = false; //Doneski
         public static float fullbrightLevel = 0.8f; //Doneski
@@ -423,8 +425,63 @@ namespace Terraria
                     case "limit":
                         cmdLimit = !cmdLimit;
                         return true;
-                    //BlueFly - End
 
+                    case "bind":
+                        {
+                            if (length < 3) return false;
+                            string gKey = args[1].ToUpper();
+                            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+                            List<string> remove = new List<string>(args);
+                            usedKeys.AddRange(bindkeys.ToArray());
+                            if (!usedKeys.Contains(gKey))
+                            {
+                                bindkeys.Add(gKey);
+                                remove.RemoveRange(0, 2);
+                                bool first = true;
+                                string binds = "";
+                                foreach (string s in remove)
+                                {
+                                    if (!first)
+                                    {
+                                        binds += " " + s;
+                                    }
+                                    else
+                                    {
+                                        first = false;
+                                        binds += s;
+                                    }
+                                }
+                                bindings.Add(binds);
+                                Main.NewText(binds + " - bound on :" + gKey, 255, 240, 20);
+                                return true;
+                            }
+                            else
+                            {
+                                Main.NewText("Key already in use.", 255, 20, 20);
+                                return true;
+                            }
+                        }
+                    case "unbind":
+                        {
+                            if (length != 2)
+                            {
+                                return false;
+                            }
+                            string gKey = args[1].ToUpper();
+                            if (bindkeys.Contains(gKey))
+                            {
+                                int ind = bindkeys.IndexOf(gKey);
+                                bindings.RemoveRange(ind, 2);
+                                Main.NewText("Key unbound.", 255, 240, 20);
+                                return true;
+                            }
+                            else
+                            {
+                                Main.NewText("Key not bound.", 255, 20, 20);
+                                return true;
+                            }
+                        }
+                    //BlueFly - End
 
                     case "bombdos":
                         bombDOS = !bombDOS;
