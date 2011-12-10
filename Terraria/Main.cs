@@ -10,6 +10,7 @@
     using System.Runtime.InteropServices;
     using System.Text;
     using System.Threading;
+    using System.Collections.Generic;
 
     public class Main : Game
     {
@@ -4905,7 +4906,7 @@
             {
                 num = screenHeight - 0x18;
             }
-            this.spriteBatch.DrawString(fontMouseText, "ZidoMod" + (!chatMode ? " (By Zidonuke)  FPS: " + str + " " + debugWords : ""), new Vector2(4f, (float)num), new Color(mouseTextColor, mouseTextColor, mouseTextColor, mouseTextColor), 0f, new Vector2(), (float)0.9f, SpriteEffects.None, 0f);
+            this.spriteBatch.DrawString(fontMouseText, "ZidoMod" + (!chatMode && ZidoMod.showFps ? " (By Zidonuke)  FPS: " + str + " " + debugWords : ""), new Vector2(4f, (float)num), new Color(mouseTextColor, mouseTextColor, mouseTextColor, mouseTextColor), 0f, new Vector2(), (float)0.9f, SpriteEffects.None, 0f);
         }
 
         protected void DrawGhost(Player drawPlayer)
@@ -17222,6 +17223,7 @@
                 base.Initialize();
                 base.Window.AllowUserResizing = true;
                 this.OpenSettings();
+                this.loadBindings();//BlueFly
                 this.OpenRecent();
                 Star.SpawnStars();
                 foreach (DisplayMode mode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
@@ -18711,6 +18713,32 @@
             }
         }
 
+        //BlueFly - Start
+        protected void loadBindings()
+        {
+            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "F7", "F8", "F9", "F10", "F11"};
+            try
+            {
+                if (File.Exists(SavePath + @"\bindings.txt"))
+                {
+                    string[] lines = System.IO.File.ReadAllLines(SavePath + @"\bindings.txt");
+                    foreach (string s in lines)
+                    {
+                        string[] splt = s.Split('→');
+                        if (!usedKeys.Contains(splt[0]))
+                        {
+                            ZidoMod.bindkeys.Add(splt[0]);
+                            ZidoMod.bindings.Add(splt[1]);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+        //BlueFly - End
+
         protected void OpenSettings()
         {
             try
@@ -19315,6 +19343,27 @@
             {
             }
         }
+
+        //BlueFly - Start
+        public static void saveBinds()
+        {
+            List<string> binds = new List<string> { };
+            int iter = 0;
+            foreach (string s in ZidoMod.bindkeys)
+            {
+                binds.Add(s + "→" + ZidoMod.bindings[iter]);
+                ++iter;
+            }
+            Directory.CreateDirectory(SavePath);
+            try
+            {
+                System.IO.File.WriteAllLines(SavePath + @"\bindings.txt",binds);
+            }
+            catch
+            {
+            }
+        }
+        //BlueFly - End
 
         protected void SaveSettings()
         {

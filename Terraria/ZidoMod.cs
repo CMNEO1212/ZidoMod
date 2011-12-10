@@ -10,7 +10,7 @@ namespace Terraria
 	{
         public static List<string> helptxt = new List<string> {
                                                                 "bind - Bind a key to a command (place '-' infront of Zido commands)",
-                                                                "unbind - Wnbind a key",
+                                                                "unbind - Unbind a key",
                                                                 "wipe - Reset all commands to default",
                                                                 "bombdos - create an explosion at every player (inc. npc's)",
                                                                 "tshock , usealt", "ui , gui - toggle diplay off active features",
@@ -73,7 +73,7 @@ namespace Terraria
                                                                 "removewall",
                                                                 "removeliquid",
                                                                 "spawn , respawn",
-                                                                "tp , teleport",
+                                                                "tp , teleport - Teleport to a player",
                                                                 "clear",
                                                                 "recover",
                                                                 "killme",
@@ -98,6 +98,7 @@ namespace Terraria
                                                                 "setstats",
                                                                 "repeat - Repeat the last command"
                                                             };
+        public static bool showFps = true; //BlueFly
         public static List<string> bindings = new List<string> { }; //BlueFly
         public static List<string> bindkeys = new List<string> { }; //BlueFly
         public static bool cmdLimit = false; //BlueFly
@@ -503,6 +504,38 @@ namespace Terraria
             return;
         }
 
+        public static bool pages(List<string> lst, string prefix,string pg,byte r,byte g,byte b)
+        {
+
+            int page = 0;
+            bool isInt = int.TryParse(pg, out page);
+            if (!isInt)
+            {
+                page = 0;
+            }
+            else
+            {
+                page -= 1;
+            }
+            if (page < 0) page = 0;
+            int start = page * 5;
+            if (start > lst.Count - 1)
+            {
+                start = 0;
+                page = 0;
+            }
+            int plus = lst.Count - start;
+            if (plus > 5) plus = 5;
+            int i = 0;
+            Main.NewText(prefix + " [Page " + (page + 1) + " of " + ((int)Math.Ceiling(lst.Count / 5.0)) + "]", r, g, b);
+            do
+            {
+                Main.NewText(lst[start + i], 255, 240, 20);
+            }
+            while (++i < plus);
+            return true;
+        }
+
         public static bool OnCommand(string cmd, string[] args, int length, string full)
         {
             try
@@ -512,35 +545,20 @@ namespace Terraria
                 
                     //BlueFly - Start
 
+                    case "fps":
+                    case "showfps":
+                        showFps = !showFps;
+                        return true;
+
                     case "help":
                         {
                             if (length > 2)
                             {
                                 return false;
                             }
-                            int helpPage;
-                            bool isInt = int.TryParse(args[1], out helpPage);
-                            if (!isInt)
-                            {
-                                helpPage = 1;
-                            }
-                            helpPage -= 1;
-                            int start = helpPage * 5;
-                            if (start > helptxt.Count - 1)
-                            {
-                                Main.NewText("No such help page", 255, 20, 20);
-                                return true;
-                            }
-                            int plus = helptxt.Count - start;
-                            if (plus > 5) plus = 5;
-                            int i = 0;
-                            Main.NewText("[Help page " + (helpPage + 1) + " of " + ((int)Math.Ceiling(helptxt.Count / 5.0)) + "]", 25, 240, 20);
-                            do
-                            {
-                                Main.NewText(helptxt[start + i], 255, 240, 20);
-                            }
-                            while (++i < plus);
-                            return true;
+                            string num = "0";
+                            if (length == 2) num = args[1];
+                            return pages(helptxt, "Help", num,25,240,20);
                         }
 
                     case "safe":
@@ -617,29 +635,18 @@ namespace Terraria
                         {
                             if (length < 3) return false;
                             string gKey = args[1].ToUpper();
-                            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+                            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "F7", "F8", "F9", "F10", "F11" };
                             List<string> remove = new List<string>(args);
                             usedKeys.AddRange(bindkeys.ToArray());
                             if (!usedKeys.Contains(gKey))
                             {
                                 bindkeys.Add(gKey);
-                                remove.RemoveRange(0, 2);
-                                bool first = true;
-                                string binds = "";
-                                foreach (string s in remove)
-                                {
-                                    if (!first)
-                                    {
-                                        binds += " " + s;
-                                    }
-                                    else
-                                    {
-                                        first = false;
-                                        binds += s;
-                                    }
-                                }
-                                bindings.Add(binds);
-                                Main.NewText(binds + " - bound on :" + gKey, 255, 240, 20);
+                                string parse = full;
+                                parse = parse.Remove(parse.IndexOf(" "), 1);
+                                parse = parse.Substring(parse.IndexOf(" ") + 1);
+                                bindings.Add(parse);
+                                Main.NewText(parse + " - bound on :" + gKey, 255, 240, 20);
+                                Main.saveBinds();
                                 return true;
                             }
                             else
@@ -647,6 +654,28 @@ namespace Terraria
                                 Main.NewText("Key already in use.", 255, 20, 20);
                                 return true;
                             }
+                        }
+                    case "binds":
+                        {
+                            if (length > 2)
+                            {
+                                return false;
+                            }
+                            if (bindkeys.Count < 1)
+                            {
+                                Main.NewText("No binds found.", 255, 240, 20);
+                                return true;
+                            }
+                            string num = "0";
+                            if (length == 2) num = args[1];
+                            List<string> snd = new List<string> { };
+                            int i = 0;
+                            foreach (string s in bindkeys)
+                            {
+                                snd.Add(s + " - " + bindings[i]);
+                                ++i;
+                            }
+                            return pages(snd, "Binds", num, 255, 145, 0);
                         }
                     case "unbind":
                         {
@@ -661,6 +690,7 @@ namespace Terraria
                                 bindings.RemoveAt(ind);
                                 bindkeys.RemoveAt(ind);
                                 Main.NewText("Key unbound.", 255, 240, 20);
+                                Main.saveBinds();
                                 return true;
                             }
                             else
@@ -669,6 +699,12 @@ namespace Terraria
                                 return true;
                             }
                         }
+
+                    case "unbindall":
+                        bindings.Clear();
+                        bindkeys.Clear();
+                        Main.saveBinds();
+                        return true;
                     //BlueFly - End
 
                     case "bombdos":
