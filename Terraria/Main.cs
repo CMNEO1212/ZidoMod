@@ -10745,8 +10745,23 @@
                     }
                     else if (Main.menuMode == 13)
                     {
+                        //BlueFly - Start
+                        if ((keyState.IsKeyDown(Keys.LeftControl) || keyState.IsKeyDown(Keys.RightControl)) && keyState.IsKeyDown(Keys.V))
+                        {
+                            if (togglepaste)
+                            {
+                                Main.getIP += Program.getClipboardText();
+                                PlaySound(12, -1, -1, 1);
+                            }
+                            togglepaste = false;
+                        }
+                        else
+                        {
+                            togglepaste = true;
+                        }
+                        //BlueFly - End
                         string getIP = Main.getIP;
-                        Main.getIP = GetInputText(Main.getIP);
+                        if(togglepaste)Main.getIP = GetInputText(Main.getIP); //BlueFly
                         if (getIP != Main.getIP)
                         {
                             PlaySound(12, -1, -1, 1);
@@ -20258,6 +20273,7 @@
                                 if (chathistnum < 0) chathistnum = 0;
                                 if (chathistnum > histsize - 1) chathistnum = histsize - 1;
                                 Main.chatText = ZidoMod.chathist[chathistnum];
+                                PlaySound(12, -1, -1, 1);
                             }
                         }
                         togglechatmove = false;
@@ -20272,6 +20288,7 @@
                         if (togglepaste)
                         {
                             Main.chatText += Program.getClipboardText();
+                            PlaySound(12, -1, -1, 1);
                         }
                         togglepaste = false;
                     }
@@ -20288,7 +20305,7 @@
                     }
 
                     string chatText = Main.chatText;
-                    if(togglepaste)Main.chatText = GetInputText(Main.chatText); //BlueFly
+                    if (togglepaste)Main.chatText = GetInputText(Main.chatText); //BlueFly
                     while (fontMouseText.MeasureString(Main.chatText).X > 470f)
                     {
                         Main.chatText = Main.chatText.Substring(0, Main.chatText.Length - 1);
