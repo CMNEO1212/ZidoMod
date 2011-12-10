@@ -1206,19 +1206,23 @@ namespace Terraria
                                         if (releaseBind)
                                         {
                                             int index = ZidoMod.bindkeys.IndexOf(a);
-                                            string text = ZidoMod.bindings[index];
-                                            if (text.StartsWith("-"))
+                                            string binding = ZidoMod.bindings[index];
+                                            string[] texts = binding.Split('&');
+                                            foreach (string text in texts)
                                             {
-                                                string full = text.Substring(1);
-                                                string[] args = full.Split(' ');
-                                                if (!ZidoMod.OnCommand(args[0].ToLower(), args, args.Length, full))
+                                                if (text.StartsWith("-"))
                                                 {
-                                                    Main.NewText("Command Failed", 255, 20, 20);
+                                                    string full = text.Substring(1);
+                                                    string[] args = full.Split(' ');
+                                                    if (!ZidoMod.OnCommand(args[0].ToLower(), args, args.Length, full))
+                                                    {
+                                                        Main.NewText("Command Failed", 255, 20, 20);
+                                                    }
                                                 }
-                                            }
-                                            else if (text != "")
-                                            {
-                                                NetMessage.SendData(0x19, -1, -1, text, Main.myPlayer, 0f, 0f, 0f, 0);
+                                                else if (text != "")
+                                                {
+                                                    NetMessage.SendData(0x19, -1, -1, text, Main.myPlayer, 0f, 0f, 0f, 0);
+                                                }
                                             }
                                         }
                                     }
