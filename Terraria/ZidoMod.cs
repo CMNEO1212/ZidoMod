@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -977,6 +977,36 @@ namespace Terraria
                         {
                             Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].damage = damage;
                             Main.NewText("Damage set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].damage, 255, 240, 20);
+                            return true;
+                        }
+                        else
+                            return false;
+                    case "pick":
+                        int pick;
+                        if (int.TryParse(args[1], out pick))
+                        {
+                            Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].pick = pick;
+                            Main.NewText("Pick power set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].pick + "%", 255, 240, 20);
+                            return true;
+                        }
+                        else
+                            return false;
+                    case "hammer":
+                        int hammer;
+                        if (int.TryParse(args[1], out hammer))
+                        {
+                            Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].hammer = hammer;
+                            Main.NewText("Hammer power set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].hammer + "%", 255, 240, 20);
+                            return true;
+                        }
+                        else
+                            return false;
+                    case "axe":
+                        int axe;
+                        if (int.TryParse(args[1], out axe))
+                        {
+                            Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].axe = axe;
+                            Main.NewText("Axe power set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].axe + "%", 255, 240, 20);
                             return true;
                         }
                         else
