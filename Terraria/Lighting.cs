@@ -163,6 +163,7 @@
 
         public static float Brightness(int x, int y)
         {
+            if (ZidoMod.fullbright) return 255f;
             int num = (x - firstTileX) + offScreenTiles;
             int num2 = (y - firstTileY) + offScreenTiles;
             if (((num >= 0) && (num2 >= 0)) && ((num < (((Main.screenWidth / 0x10) + (offScreenTiles * 2)) + 10)) && (num2 < (((Main.screenHeight / 0x10) + (offScreenTiles * 2)) + 10))))
