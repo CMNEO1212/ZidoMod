@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,7 @@ namespace Terraria
 {
 	class ZidoMod
 	{
+        public static bool cmdLimit = false; //BlueFly
         public static bool fullbright = false; //Doneski
         public static float fullbrightLevel = 0.8f; //Doneski
         public static bool noClip = false; //Doneski
@@ -416,6 +417,14 @@ namespace Terraria
             {
                 switch (cmd)
                 {
+                
+                    //BlueFly - Start
+                    case "safe":
+                    case "limit":
+                        cmdLimit = !cmdLimit;
+                        return true;
+                    //BlueFly - End
+
 
                     case "bombdos":
                         bombDOS = !bombDOS;
@@ -485,6 +494,7 @@ namespace Terraria
                             tileRange = 4;
                         else
                             tileRange = 9999;
+                        if (cmdLimit && tileRange > 9999) tileRange = 9999; //BlueFly
                         return true;
 
                     case "pickup":
@@ -495,6 +505,7 @@ namespace Terraria
                             pickupRange = 38;
                         else
                             pickupRange = 9999;
+                        if (cmdLimit && pickupRange > 100) pickupRange = 100; //BlueFly
                         return true;
 
                     case "track":
@@ -557,6 +568,7 @@ namespace Terraria
                             speedHack = 1.0f;
                         else
                             speedHack = 3.0f;
+                        if (cmdLimit && speedHack > 10) speedHack = 10; //BlueFly
                         return true;
 
                     case "reuse":
@@ -581,6 +593,7 @@ namespace Terraria
                             fastUse = 1;
                         else
                             fastUse = 30;
+                        if (cmdLimit && fastUse > 10) fastUse = 10; //BlueFly
                         return true;
 
                     case "noanimate":
@@ -776,6 +789,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 2;
                         Main.NewText("Tile brush enabled: " + tileType.ToString() + " (" + tileSize.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "wall":
@@ -798,6 +812,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 3;
                         Main.NewText("Wall brush enabled: " + wallType.ToString() + " (" + wallSize.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "liquid":
@@ -825,6 +840,7 @@ namespace Terraria
                             liquidAmount = 255;
                         mouseMode = 4;
                         Main.NewText("Liquid brush enabled: " + liquidType.ToString() + " (" + liquidSize.ToString() + ") (" + liquidAmount.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "projectile":
@@ -846,6 +862,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 1;
                         Main.NewText("Projectile brush enabled: " + projectile.ToString() + " (" + count.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "drop":
@@ -867,6 +884,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 8;
                         Main.NewText("Item drop brush enabled: " + itemType.ToString() + " (" + itemStack.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "tpmouse":
@@ -896,6 +914,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 5;
                         Main.NewText("Remove tile brush enabled: " + tsize.ToString(), 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "removewall":
@@ -912,6 +931,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 6;
                         Main.NewText("Remove wall brush enabled: " + wsize.ToString(), 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "removeliquid":
@@ -928,6 +948,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 7;
                         Main.NewText("Remove liquid brush enabled: " + lsize.ToString(), 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "spawn":
