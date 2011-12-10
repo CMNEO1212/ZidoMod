@@ -8,6 +8,96 @@ namespace Terraria
 {
 	class ZidoMod
 	{
+        public static List<string> helptxt = new List<string> {
+                                                                "bind - Bind a key to a command (place '-' infront of Zido commands)",
+                                                                "unbind - Wnbind a key",
+                                                                "wipe - Reset all commands to default",
+                                                                "bombdos - create an explosion at every player (inc. npc's)",
+                                                                "tshock , usealt", "ui , gui - toggle diplay off active features",
+                                                                "fullbright , brightness , fb - turn off lighting",
+                                                                "noclip , nc - movement wihtout clipping",
+                                                                "accurate , accurateplayers - show player at accurate co-ords",
+                                                                "freecam , outofbody - move camera instead of player",
+                                                                "god , g - Take no damage and loose no breath",
+                                                                "undead , nodie , nodeath - Hit 0 health, don't die.",
+                                                                "infmana ,infinitemana - Infinite mana.",
+                                                                "range , itemrange , hitrange , tilerange - toggle and set the range at which you can place blocks",
+                                                                "pickup , pickuprange - Toggle and set range at which you can pick up items",
+                                                                "track , tracking",
+                                                                "radar , showradar - Toggle the radar",
+                                                                "showinvis , noinvis - Show invisable players",
+                                                                "infrockets , infboots , infwings - Infinite rocket boosting, or wings.",
+                                                                "slowfall - Toggle slowfall",
+                                                                "waterwalk , lavawalk - Toggle walking on liquids",
+                                                                "infbreath , breath - Never run out of breath",
+                                                                "thorns - Enemies take damage when they hit you",
+                                                                "gravctrl , grav , gravity - Toggle gravity control",
+                                                                "knockback , noknockback - Toggle wether you recieve knockback",
+                                                                "speed , speedhack , sh - Toggle and set speed hack",
+                                                                "reuse , autoreuse - Automatically reswing/cast/etc weapon or item.",
+                                                                "infammo - Infinate ammo",
+                                                                "infjump - Infinite extra jumps",
+                                                                "fastuse , usespeed , rapidfire - toggle and set rapid use of items or weapons",
+                                                                "noanimate - Toggle character use animations",
+                                                                "noprojectile",
+                                                                "capstats , fakehealth",
+                                                                "maxstack , infstack - Infinite items.",
+                                                                "gps , pos",
+                                                                "light , flashlight - Shine",
+                                                                "nodebuff , disabledebuff - No debuffs from enemies",
+                                                                "allowdelbuff",
+                                                                "maxrespawn fullrespawn",
+                                                                "instantspawn instantrespawn",
+                                                                "nofall , nofalldmg - Toggle falling damage",
+                                                                "showrecipes - toggle show all recipies",
+                                                                "uberdef , uberdefense - Extreeme defense",
+                                                                "superjump , sjump , jump - Toggle super jump",
+                                                                "fastmouse , mouserelease",
+                                                                "freecrafting - Toggle craft any item without need for resources",
+                                                                "invis , invisible - Toggle yourself invisable",
+                                                                "shoot",
+                                                                "ammo",
+                                                                "shootSpeed",
+                                                                "damage",
+                                                                "camfollow , watch",
+                                                                "stalk , follow",
+                                                                "camto",
+                                                                "tile , placetile",
+                                                                "wall , placewall",
+                                                                "liquid , placeliquid",
+                                                                "projectile",
+                                                                "drop",
+                                                                "tpmouse , mousetp",
+                                                                "resetmouse , mousereset",
+                                                                "removetile",
+                                                                "removewall",
+                                                                "removeliquid",
+                                                                "spawn , respawn",
+                                                                "tp , teleport",
+                                                                "clear",
+                                                                "recover",
+                                                                "killme",
+                                                                "kill",
+                                                                "killall , killplrs , killplayers",
+                                                                "bombplayers , bombplrs",
+                                                                "killmobs",
+                                                                "killnpcs",
+                                                                "backup - Backup invenntory (no persistant, use restore before closing terraria)",
+                                                                "restore - Restores the backed up inventory",
+                                                                "fullstack",
+                                                                "itemprefix",
+                                                                "item",
+                                                                "chest",
+                                                                "home - Go to your home point",
+                                                                "sethome - Set home point",
+                                                                "steal",
+                                                                "healplrs , healplayers , healall",
+                                                                "manaplrs , manaplayers , manaall",
+                                                                "heal",
+                                                                "give",
+                                                                "setstats",
+                                                                "repeat - Repeat the last command"
+                                                            };
         public static List<string> bindings = new List<string> { }; //BlueFly
         public static List<string> bindkeys = new List<string> { }; //BlueFly
         public static bool cmdLimit = false; //BlueFly
@@ -421,6 +511,38 @@ namespace Terraria
                 {
                 
                     //BlueFly - Start
+
+                    case "help":
+                        {
+                            if (length > 2)
+                            {
+                                return false;
+                            }
+                            int helpPage;
+                            bool isInt = int.TryParse(args[1], out helpPage);
+                            if (!isInt)
+                            {
+                                helpPage = 1;
+                            }
+                            helpPage -= 1;
+                            int start = helpPage * 5;
+                            if (start > helptxt.Count - 1)
+                            {
+                                Main.NewText("No such help page", 255, 20, 20);
+                                return true;
+                            }
+                            int plus = helptxt.Count - start;
+                            if (plus > 5) plus = 5;
+                            int i = 0;
+                            Main.NewText("[Help page " + (helpPage + 1) + " of " + ((int)Math.Ceiling(helptxt.Count / 5.0)) + "]", 25, 240, 20);
+                            do
+                            {
+                                Main.NewText(helptxt[start + i], 255, 240, 20);
+                            }
+                            while (++i < plus);
+                            return true;
+                        }
+
                     case "safe":
                     case "limit":
                         cmdLimit = !cmdLimit;
