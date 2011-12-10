@@ -558,7 +558,7 @@ namespace Terraria
                         {
                             if (length > 2)
                             {
-                                Main.NewText("Usage: -help <page>", 255, 20, 20);
+                                Main.NewText("Usage: -help <page>", 255, 240, 20);
                                 return true;
                             }
                             string num = "0";
@@ -644,7 +644,7 @@ namespace Terraria
                         {
                             if (length < 3)
                             {
-                                Main.NewText("Usage: -bind <key> [command]&[command]& ...", 255, 20, 20);
+                                Main.NewText("Usage: -bind <key> [command]&[command]& ...", 255, 240, 20);
                                 return true;
                             }
                             string gKey = args[1].ToUpper();
@@ -672,12 +672,12 @@ namespace Terraria
                         {
                             if (length > 2)
                             {
-                                Main.NewText("Usage: -binds <page>", 255, 20, 20);
+                                Main.NewText("Usage: -binds <page>", 255, 240, 20);
                                 return true;
                             }
                             if (bindkeys.Count < 1)
                             {
-                                Main.NewText("No binds found.", 255, 240, 20);
+                                Main.NewText("No binds found.", 255, 20, 20);
                                 return true;
                             }
                             string num = "0";
@@ -699,7 +699,7 @@ namespace Terraria
                         {
                             if (length != 2)
                             {
-                                Main.NewText("Usage: -unbind <key>", 255, 20, 20);
+                                Main.NewText("Usage: -unbind <key>", 255, 240, 20);
                                 return true;
                             }
                             string gKey = args[1].ToUpper();
@@ -1094,7 +1094,7 @@ namespace Terraria
                         int cftarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (cftarget < 0)
                         {
-                            Main.NewText("Player not found!", 255, 240, 20);
+                            Main.NewText("Player not found!", 255, 20, 20);
                             return true;
                         }
                         freeCam = true;
@@ -1114,7 +1114,7 @@ namespace Terraria
                         int ftarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (ftarget < 0)
                         {
-                            Main.NewText("Player not found!", 255, 240, 20);
+                            Main.NewText("Player not found!", 255, 20, 20);
                             return true;
                         }
                         noClip = true;
@@ -1132,7 +1132,7 @@ namespace Terraria
                         int camtarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (camtarget < 0)
                         {
-                            Main.NewText("Player not found!", 255, 240, 20);
+                            Main.NewText("Player not found!", 255, 20, 20);
                             return true;
                         }
                         Main.player[Main.myPlayer].position = Main.player[camtarget].position;
@@ -1182,7 +1182,7 @@ namespace Terraria
                             brushSize = 1;
                         if (brushType >= Main.maxWallTypes || brushType < 0)
                         {
-                            Main.NewText("Invalid wall type.", 255, 240, 20);
+                            Main.NewText("Invalid wall type.", 255, 20, 20);
                             return true;
                         }
                         mouseMode = 3;
@@ -1342,7 +1342,7 @@ namespace Terraria
                         int target = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (target < 0)
                         {
-                            Main.NewText("Player not found!", 255, 240, 20);
+                            Main.NewText("Player not found!", 255, 20, 20);
                             return true;
                         }
                         Main.player[Main.myPlayer].position = Main.player[target].position;
@@ -1388,7 +1388,7 @@ namespace Terraria
                         int killtarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (killtarget < 0)
                         {
-                            Main.NewText("Player not found!", 255, 240, 20);
+                            Main.NewText("Player not found!", 255, 20, 20);
                             return true;
                         }
                         int index = Projectile.NewProjectile(Main.player[killtarget].position.X, Main.player[killtarget].position.Y, 0, 0, 0x63, 999999, 0.0f, 0xff);
@@ -1496,7 +1496,7 @@ namespace Terraria
                         {
                             if (prefix > 83)
                             {
-                                Main.NewText("Invalid prefix, must be 83 or less.", 255, 240, 20);
+                                Main.NewText("Invalid prefix, must be 83 or less.", 255, 20, 20);
                                 return true;
                             }
                             string prefixitem = full.Substring(full.IndexOf(' ', full.IndexOf(' ') + 1)).Trim().ToProper();
@@ -1554,7 +1554,7 @@ namespace Terraria
                         }
                         else
                         {
-                            Main.NewText("No home set! Use -sethome", 255, 240, 20);
+                            Main.NewText("No home set! Use -sethome", 255, 20, 20);
                         }
                         return true;
 
@@ -1574,7 +1574,7 @@ namespace Terraria
                         int clonetarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (clonetarget < 0)
                         {
-                            Main.NewText("Player not found!", 255, 240, 20);
+                            Main.NewText("Player not found!", 255, 20, 20);
                             return true;
                         }
                         Main.player[Main.myPlayer].armor = Main.player[clonetarget].armor;
@@ -1718,19 +1718,19 @@ namespace Terraria
                     case "repeat":
                         if (lastCommand == "repeat")
                         {
-                            Main.NewText("Can't repeat a repeat command!", 255, 240, 20);
+                            Main.NewText("Can't repeat a repeat command!", 255, 20, 20);
                             return true;
                         }
                         if (lastCommand == null)
                         {
-                            Main.NewText("No previous commands!", 255, 240, 20);
+                            Main.NewText("No previous commands!", 255, 20, 20);
                             return true;
                         }
                         string full2 = lastCommand.Substring(1);
                         string[] args2 = full2.Split(' ');
                         if (!ZidoMod.OnCommand(args2[0].ToLower(), args2, args2.Length, full2))
                         {
-                            Main.NewText("Command Failed", 255, 240, 20);
+                            Main.NewText("Command Failed", 255, 20, 20);
                         }
                         return true;
                     case "say":
@@ -1750,7 +1750,7 @@ namespace Terraria
             }
             catch (Exception exception)
             {
-                Main.NewText("Command Error: " + exception, 255, 240, 20);
+                Main.NewText("Command Error: " + exception, 255, 20, 20);
                 return false;
             }
         }

@@ -20322,7 +20322,7 @@
                             string[] args = full.Split(' ');
                             if (!ZidoMod.OnCommand(args[0].ToLower(), args, args.Length, full))
                             {
-                                Main.NewText("Command Failed", 255, 240, 20);
+                                Main.NewText("Command Failed", 255, 20, 20);
                             }
                             else if(args[0].ToLower() != "repeat")
                             {
