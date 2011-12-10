@@ -10,7 +10,7 @@ namespace Terraria
 	{
         public static List<string> helptxt = new List<string> {
                                                                 "bind - Bind a key to a command (place '-' infront of Zido commands)",
-                                                                "unbind - Wnbind a key",
+                                                                "unbind - Unbind a key",
                                                                 "wipe - Reset all commands to default",
                                                                 "bombdos - create an explosion at every player (inc. npc's)",
                                                                 "tshock , usealt", "ui , gui - toggle diplay off active features",
@@ -73,7 +73,7 @@ namespace Terraria
                                                                 "removewall",
                                                                 "removeliquid",
                                                                 "spawn , respawn",
-                                                                "tp , teleport",
+                                                                "tp , teleport - Teleport to a player",
                                                                 "clear",
                                                                 "recover",
                                                                 "killme",
@@ -623,23 +623,11 @@ namespace Terraria
                             if (!usedKeys.Contains(gKey))
                             {
                                 bindkeys.Add(gKey);
-                                remove.RemoveRange(0, 2);
-                                bool first = true;
-                                string binds = "";
-                                foreach (string s in remove)
-                                {
-                                    if (!first)
-                                    {
-                                        binds += " " + s;
-                                    }
-                                    else
-                                    {
-                                        first = false;
-                                        binds += s;
-                                    }
-                                }
-                                bindings.Add(binds);
-                                Main.NewText(binds + " - bound on :" + gKey, 255, 240, 20);
+                                string parse = full;
+                                parse = parse.Remove(parse.IndexOf(" "), 1);
+                                parse = parse.Substring(parse.IndexOf(" ") + 1);
+                                bindings.Add(parse);
+                                Main.NewText(parse + " - bound on :" + gKey, 255, 240, 20);
                                 return true;
                             }
                             else
