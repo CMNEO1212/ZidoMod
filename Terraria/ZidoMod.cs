@@ -98,6 +98,7 @@ namespace Terraria
                                                                 "setstats",
                                                                 "repeat - Repeat the last command"
                                                             };
+        public static List<string> chathist = new List<string> { }; //BlueFly
         public static bool showFps = true; //BlueFly
         public static List<string> bindings = new List<string> { }; //BlueFly
         public static List<string> bindkeys = new List<string> { }; //BlueFly

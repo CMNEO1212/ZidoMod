@@ -14,6 +14,11 @@
 
     public class Main : Game
     {
+        //BlueFly - Start
+        public int chathistnum = 0;
+        public bool togglechatmove = true;
+        //BlueFly - End
+
         private static int accSlotCount = 0;
         public static Texture2D antLionTexture;
         public static float armorAlpha = 1f;
@@ -20239,8 +20244,31 @@
                 }
                 if (chatMode)
                 {
+                    //BlueFly - Start
+                    if (keyState.IsKeyDown(Keys.Down) || keyState.IsKeyDown(Keys.Up))
+                    {
+                        if (togglechatmove)
+                        {
+                            int histsize = ZidoMod.chathist.Count;
+                            if (histsize > 0)
+                            {
+                                if (keyState.IsKeyDown(Keys.Down)) chathistnum += 1;
+                                if (keyState.IsKeyDown(Keys.Up)) chathistnum -= 1;
+                                if (chathistnum < 0) chathistnum = 0;
+                                if (chathistnum > histsize - 1) chathistnum = histsize - 1;
+                                Main.chatText = ZidoMod.chathist[chathistnum];
+                            }
+                        }
+                        togglechatmove = false;
+                    }
+                    else
+                    {
+                        togglechatmove = true;
+                    }
+                    //BlueFly - End
                     if (keyState.IsKeyDown(Keys.Escape))
                     {
+                        chathistnum = ZidoMod.chathist.Count; //BlueFly
                         chatMode = false;
                     }
                     string chatText = Main.chatText;
@@ -20272,6 +20300,19 @@
                         {
                             NetMessage.SendData(0x19, -1, -1, Main.chatText, myPlayer, 0f, 0f, 0f, 0);
                         }
+                        //BlueFly - Start
+                        if (Main.chatText.Length > 0) ZidoMod.chathist.Add(Main.chatText);
+                        int hists = ZidoMod.chathist.Count;
+                        if(hists > 25)
+                        {
+                            do
+                            {
+                                ZidoMod.chathist.RemoveAt(0);
+                                hists = ZidoMod.chathist.Count;
+                            }
+                            while (hists > 25);
+                        }
+                        //BlueFly - End
                         Main.chatText = "";
                         chatMode = false;
                         chatRelease = false;
@@ -20279,6 +20320,7 @@
                         player[myPlayer].releaseThrow = false;
                         PlaySound(11, -1, -1, 1);
                     }
+                    if (Main.chatText.Length == 0) chathistnum = ZidoMod.chathist.Count; //BlueFly
                 }
                 if ((keyState.IsKeyDown(Keys.Enter)) && (!keyState.IsKeyDown(Keys.LeftAlt) && !keyState.IsKeyDown(Keys.RightAlt)))
                 {
