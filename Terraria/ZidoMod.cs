@@ -55,10 +55,13 @@ namespace Terraria
                                                                 "fastmouse , mouserelease",
                                                                 "freecrafting - Toggle craft any item without need for resources",
                                                                 "invis , invisible - Toggle yourself invisable",
-                                                                "shoot",
-                                                                "ammo",
-                                                                "shootSpeed",
-                                                                "damage",
+                                                                "usetime - How fast an item shoots/uses, lower is faster.",
+                                                                "shoot - Set the projectile an item shoots",
+                                                                "ammo - What ammo the item uses (does not shoot it)",
+                                                                "shootspeed - Speed of shot projectile",
+                                                                "damage - Damage of weapon/projectile",
+                                                                "pick , hammer , axe - Set the tool power % for any item",
+                                                                "say - Send a normal message, can send - as the first char",
                                                                 "camfollow , watch",
                                                                 "stalk , follow",
                                                                 "camto",
@@ -555,11 +558,16 @@ namespace Terraria
                         {
                             if (length > 2)
                             {
-                                return false;
+                                Main.NewText("Usage: -help <page>", 255, 20, 20);
+                                return true;
                             }
                             string num = "0";
                             if (length == 2) num = args[1];
-                            return pages(helptxt, "Help", num,25,240,20);
+                            if (!pages(helptxt, "Help", num, 25, 240, 20))
+                            {
+                                Main.NewText("Invalid page.", 255, 20, 20);
+                            }
+                            return true;
                         }
 
                     case "safe":
@@ -634,7 +642,11 @@ namespace Terraria
 
                     case "bind":
                         {
-                            if (length < 3) return false;
+                            if (length < 3)
+                            {
+                                Main.NewText("Usage: -bind <key> [command]&[command]& ...", 255, 20, 20);
+                                return true;
+                            }
                             string gKey = args[1].ToUpper();
                             List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "F7", "F8", "F9", "F10", "F11" };
                             List<string> remove = new List<string>(args);
@@ -660,7 +672,8 @@ namespace Terraria
                         {
                             if (length > 2)
                             {
-                                return false;
+                                Main.NewText("Usage: -binds <page>", 255, 20, 20);
+                                return true;
                             }
                             if (bindkeys.Count < 1)
                             {
@@ -676,13 +689,18 @@ namespace Terraria
                                 snd.Add(s + " - " + bindings[i]);
                                 ++i;
                             }
-                            return pages(snd, "Binds", num, 255, 145, 0);
+                            if (!pages(snd, "Binds", num, 255, 145, 0))
+                            {
+                                Main.NewText("Invalid page.", 255, 20, 20);
+                            }
+                            return true;
                         }
                     case "unbind":
                         {
                             if (length != 2)
                             {
-                                return false;
+                                Main.NewText("Usage: -unbind <key>", 255, 20, 20);
+                                return true;
                             }
                             string gKey = args[1].ToUpper();
                             if (bindkeys.Contains(gKey))
@@ -968,86 +986,102 @@ namespace Terraria
 
                     case "shoot":
                         int shoot;
-                        if (int.TryParse(args[1], out shoot))
+                        if (length == 2 && int.TryParse(args[1], out shoot))
                         {
                             Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].shoot = shoot;
                             Main.NewText("Shoot set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].shoot, 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -shoot <projectileID>", 255, 240, 20);
+                        }
+                        return true;
                     case "usetime":
                         int useTime;
-                        if (int.TryParse(args[1], out useTime))
+                        if (length == 2 && int.TryParse(args[1], out useTime))
                         {
                             Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].useTime = useTime;
                             Main.NewText("useTime set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].useTime, 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -usetime <speed>", 255, 240, 20);
+                        }
+                        return true;
                     case "ammo":
                         int ammo;
-                        if (int.TryParse(args[1], out ammo))
+                        if (length == 2 && int.TryParse(args[1], out ammo))
                         {
                             Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].ammo = ammo;
                             Main.NewText("Ammo set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].ammo, 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -ammo <itemID>", 255, 240, 20);
+                        }
+                        return true;
 
                     case "shootspeed":
                         int shootSpeed;
-                        if (int.TryParse(args[1], out shootSpeed))
+                        if (length == 2 && int.TryParse(args[1], out shootSpeed))
                         {
                             Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].shootSpeed = shootSpeed;
                             Main.NewText("ShootSpeed set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].shootSpeed, 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -shootspeed <speed>", 255, 240, 20);
+                        }
+                        return true;
 
                     case "damage":
                         int damage;
-                        if (int.TryParse(args[1], out damage))
+                        if (length == 2 && int.TryParse(args[1], out damage))
                         {
                             Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].damage = damage;
                             Main.NewText("Damage set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].damage, 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -damage <damage>", 255, 240, 20);
+                        }
+                        return true;
                     case "pick":
                         int pick;
-                        if (int.TryParse(args[1], out pick))
+                        if (length == 2 && int.TryParse(args[1], out pick))
                         {
                             Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].pick = pick;
                             Main.NewText("Pick power set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].pick + "%", 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -pick <power>", 255, 240, 20);
+                        }
+                        return true;
                     case "hammer":
                         int hammer;
-                        if (int.TryParse(args[1], out hammer))
+                        if (length == 2 && int.TryParse(args[1], out hammer))
                         {
                             Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].hammer = hammer;
                             Main.NewText("Hammer power set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].hammer + "%", 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -hammer <power>", 255, 240, 20);
+                        }
+                        return true;
                     case "axe":
                         int axe;
-                        if (int.TryParse(args[1], out axe))
+                        if (length == 2 && int.TryParse(args[1], out axe))
                         {
                             Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].axe = axe;
                             Main.NewText("Axe power set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].axe + "%", 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -axe <power>", 255, 240, 20);
+                        }
+                        return true;
 
                     case "camfollow":
                     case "watch":
@@ -1059,7 +1093,10 @@ namespace Terraria
                         }
                         int cftarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (cftarget < 0)
-                            return false;
+                        {
+                            Main.NewText("Player not found!", 255, 240, 20);
+                            return true;
+                        }
                         freeCam = true;
                         followMode = 1;
                         followTarget = cftarget;
@@ -1076,7 +1113,10 @@ namespace Terraria
                         }
                         int ftarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (ftarget < 0)
-                            return false;
+                        {
+                            Main.NewText("Player not found!", 255, 240, 20);
+                            return true;
+                        }
                         noClip = true;
                         followMode = 2;
                         followTarget = ftarget;
@@ -1085,10 +1125,16 @@ namespace Terraria
 
                     case "camto":
                         if (length <= 1)
-                            return false;
+                        {
+                            Main.NewText("Usage: -camto <player>", 255, 240, 20);
+                            return true;
+                        }
                         int camtarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (camtarget < 0)
-                            return false;
+                        {
+                            Main.NewText("Player not found!", 255, 240, 20);
+                            return true;
+                        }
                         Main.player[Main.myPlayer].position = Main.player[camtarget].position;
                         Main.NewText("Freecammed to " + Main.player[camtarget].name, 255, 240, 20);
                         return true;
@@ -1289,10 +1335,16 @@ namespace Terraria
                     case "tp":
                     case "teleport":
                         if (length <= 1)
-                            return false;
+                        {
+                            Main.NewText("Usage: -tp <player>", 255, 240, 20);
+                            return true;
+                        }
                         int target = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (target < 0)
-                            return false;
+                        {
+                            Main.NewText("Player not found!", 255, 240, 20);
+                            return true;
+                        }
                         Main.player[Main.myPlayer].position = Main.player[target].position;
                         Main.NewText("Teleported to " + Main.player[target].name, 255, 240, 20);
                         return true;
@@ -1329,10 +1381,16 @@ namespace Terraria
 
                     case "kill":
                         if (length <= 1)
-                            return false;
+                        {
+                            Main.NewText("Usage: -kill <player>", 255, 240, 20);
+                            return true;
+                        }
                         int killtarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (killtarget < 0)
-                            return false;
+                        {
+                            Main.NewText("Player not found!", 255, 240, 20);
+                            return true;
+                        }
                         int index = Projectile.NewProjectile(Main.player[killtarget].position.X, Main.player[killtarget].position.Y, 0, 0, 0x63, 999999, 0.0f, 0xff);
                         if (Main.netMode == 1)
                         {
@@ -1434,23 +1492,31 @@ namespace Terraria
 
                     case "itemprefix":
                         byte prefix;
-                        if (byte.TryParse(args[1], out prefix))
+                        if (length > 2 && byte.TryParse(args[1], out prefix))
                         {
                             if (prefix > 83)
-                                return false;
+                            {
+                                Main.NewText("Invalid prefix, must be 83 or less.", 255, 240, 20);
+                                return true;
+                            }
                             string prefixitem = full.Substring(full.IndexOf(' ', full.IndexOf(' ') + 1)).Trim().ToProper();
                             Main.player[Main.myPlayer].inventory[9].SetDefaults(prefixitem);
                             Main.player[Main.myPlayer].inventory[9].Prefix(prefix);
                             Main.player[Main.myPlayer].inventory[9].stack = Main.player[Main.myPlayer].inventory[9].maxStack;
                             Main.NewText("Created " + Main.player[Main.myPlayer].inventory[9].name, 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -itemprefix <prefix> <itemName>", 255, 240, 20);
+                        }
+                        return true;
 
                     case "item":
                         if (length <= 1)
-                            return false;
+                        {
+                            Main.NewText("Usage: -item <itemID/itemName>", 255, 240, 20);
+                            return true;
+                        }
                         int itemId;
                         if (length == 2 && int.TryParse(args[1], out itemId))
                         {
@@ -1469,24 +1535,28 @@ namespace Terraria
 
                     case "chest":
                         int chest;
-                        if (int.TryParse(args[1], out chest))
+                        if (length > 1 && int.TryParse(args[1], out chest))
                         {
                             Main.player[Main.myPlayer].chest = chest;
                             Main.NewText("Open chest changed", 255, 240, 20);
-                            return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -chest <chestID>", 255, 240, 20);
+                        }
+                        return true;
 
                     case "home":
-                        if(homeLoc.X != 0 && homeLoc.Y != 0)
+                        if (homeLoc.X != 0 && homeLoc.Y != 0)
                         {
                             Main.player[Main.myPlayer].position = homeLoc;
                             Main.NewText("Going home", 255, 240, 20);
-                            return true;
                         }
-                        else 
-                            return false;
+                        else
+                        {
+                            Main.NewText("No home set! Use -sethome", 255, 240, 20);
+                        }
+                        return true;
 
                     case "sethome":
                         homeLoc = Main.player[Main.myPlayer].position;
@@ -1495,12 +1565,18 @@ namespace Terraria
 
                     case "steal":
                         if (length <= 1)
-                            return false;
+                        {
+                            Main.NewText("Usage: -steal <player>", 255, 240, 20);
+                            return true;
+                        }
                         recoveryInventory = Main.player[Main.myPlayer].inventory;
                         recoveryArmor = Main.player[Main.myPlayer].armor;
                         int clonetarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (clonetarget < 0)
-                            return false;
+                        {
+                            Main.NewText("Player not found!");
+                            return true;
+                        }
                         Main.player[Main.myPlayer].armor = Main.player[clonetarget].armor;
                         Main.player[Main.myPlayer].inventory = Main.player[clonetarget].inventory;
                         Main.NewText("Copied " + Main.player[clonetarget].name + " inventory", 255, 240, 20);
@@ -1560,7 +1636,10 @@ namespace Terraria
                         }
                         int healtarget = GetPlayer(full.Substring(full.IndexOf(' ')));
                         if (healtarget < 0)
-                            return false;
+                        {
+                            Main.NewText("Player not found!", 255, 20, 20);
+                            return ftrue;
+                        }
                         for (int i = 0; i < 10; i++)
                         {
                             int index3 = Item.NewItem((int)Main.player[healtarget].position.X, (int)Main.player[healtarget].position.Y, Main.player[healtarget].width, Main.player[healtarget].height, 0x3a, 1, false, 0);
@@ -1575,14 +1654,15 @@ namespace Terraria
                         return true;
 
                     case "give":
-                        if (length <= 1)  
-                            return false;
                         int gift;
-                        if (int.TryParse(args[1], out gift))
+                        if (length == 3 && int.TryParse(args[1], out gift))
                         {
                             int givetarget = GetPlayer(full.Substring(full.IndexOf(' ', full.IndexOf(' ') + 1)));
                             if (givetarget < 0)
-                                return false;
+                            {
+                                Main.NewText("Player not found!", 255, 20, 20);
+                                return true;
+                            }
                             int index5 = Item.NewItem((int)Main.player[givetarget].position.X, (int)Main.player[givetarget].position.Y, Main.player[givetarget].width, Main.player[givetarget].height, 0x3a, 1, false, 0);
                             if (Main.netMode == 1)
                             {
@@ -1592,7 +1672,10 @@ namespace Terraria
                             return true;
                         }
                         else
-                            return false;
+                        {
+                            Main.NewText("Usage: -give <itemID> <player>", 255, 240, 20);
+                            return true;
+                        }
 
                     case "setstats":
                         if (length <= 1)
@@ -1633,8 +1716,16 @@ namespace Terraria
                             return false;
 
                     case "repeat":
-                        if (lastCommand == "repeat") return false;
-                        if (lastCommand == null) return false;
+                        if (lastCommand == "repeat")
+                        {
+                            Main.NewText("Can't repeat a repeat command!", 255, 240, 20);
+                            return true;
+                        }
+                        if (lastCommand == null)
+                        {
+                            Main.NewText("No previous commands!", 255, 240, 20);
+                            return true;
+                        }
                         string full2 = lastCommand.Substring(1);
                         string[] args2 = full2.Split(' ');
                         if (!ZidoMod.OnCommand(args2[0].ToLower(), args2, args2.Length, full2))
@@ -1643,9 +1734,14 @@ namespace Terraria
                         }
                         return true;
                     case "say":
-                        string saytext = string.Join(" ", args);
-                        saytext = saytext.Remove(0, 4);
-                        NetMessage.SendData(0x19, -1, -1, saytext, Main.myPlayer, 0f, 0f, 0f, 0);
+                        if (length > 1)
+                        {
+                            string saytext = string.Join(" ", args);
+                            saytext = saytext.Remove(0, 4);
+                            NetMessage.SendData(0x19, -1, -1, saytext, Main.myPlayer, 0f, 0f, 0f, 0);
+                        }
+                        else
+                            Main.NewText("Usage: -say <words>", 255, 240, 20);
                         return true;
 
                     default:
