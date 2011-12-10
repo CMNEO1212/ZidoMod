@@ -1838,7 +1838,7 @@ namespace Terraria
                     }
 					this.detectCreature = false;
 					this.gravControl = false;
-                    if (ZidoMod.gravityControl)
+                    if (ZidoMod.gravityControl && i == Main.myPlayer)
                     {
                         this.gravControl = true;
                     }
