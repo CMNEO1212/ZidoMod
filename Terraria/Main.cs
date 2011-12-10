@@ -18716,6 +18716,7 @@
         //BlueFly - Start
         protected void loadBindings()
         {
+            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" };
             try
             {
                 if (File.Exists(SavePath + @"\bindings.txt"))
@@ -18724,8 +18725,11 @@
                     foreach (string s in lines)
                     {
                         string[] splt = s.Split('→');
-                        ZidoMod.bindkeys.Add(splt[0]);
-                        ZidoMod.bindings.Add(splt[1]);
+                        if (!usedKeys.Contains(splt[0]))
+                        {
+                            ZidoMod.bindkeys.Add(splt[0]);
+                            ZidoMod.bindings.Add(splt[1]);
+                        }
                     }
                 }
             }
