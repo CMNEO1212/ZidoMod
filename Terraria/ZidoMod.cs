@@ -927,7 +927,16 @@ namespace Terraria
                         }
                         else
                             return false;
-
+                    case "usetime":
+                        int useTime;
+                        if (int.TryParse(args[1], out useTime))
+                        {
+                            Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].useTime = useTime;
+                            Main.NewText("useTime set: " + Main.player[Main.myPlayer].inventory[Main.player[Main.myPlayer].selectedItem].useTime, 255, 240, 20);
+                            return true;
+                        }
+                        else
+                            return false;
                     case "ammo":
                         int ammo;
                         if (int.TryParse(args[1], out ammo))
@@ -939,7 +948,7 @@ namespace Terraria
                         else
                             return false;
 
-                    case "shootSpeed":
+                    case "shootspeed":
                         int shootSpeed;
                         if (int.TryParse(args[1], out shootSpeed))
                         {
