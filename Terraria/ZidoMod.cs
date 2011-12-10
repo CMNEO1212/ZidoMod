@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,99 @@ namespace Terraria
 {
 	class ZidoMod
 	{
+        public static List<string> helptxt = new List<string> {
+                                                                "bind - Bind a key to a command (place '-' infront of Zido commands)",
+                                                                "unbind - Wnbind a key",
+                                                                "wipe - Reset all commands to default",
+                                                                "bombdos - create an explosion at every player (inc. npc's)",
+                                                                "tshock , usealt", "ui , gui - toggle diplay off active features",
+                                                                "fullbright , brightness , fb - turn off lighting",
+                                                                "noclip , nc - movement wihtout clipping",
+                                                                "accurate , accurateplayers - show player at accurate co-ords",
+                                                                "freecam , outofbody - move camera instead of player",
+                                                                "god , g - Take no damage and loose no breath",
+                                                                "undead , nodie , nodeath - Hit 0 health, don't die.",
+                                                                "infmana ,infinitemana - Infinite mana.",
+                                                                "range , itemrange , hitrange , tilerange - toggle and set the range at which you can place blocks",
+                                                                "pickup , pickuprange - Toggle and set range at which you can pick up items",
+                                                                "track , tracking",
+                                                                "radar , showradar - Toggle the radar",
+                                                                "showinvis , noinvis - Show invisable players",
+                                                                "infrockets , infboots , infwings - Infinite rocket boosting, or wings.",
+                                                                "slowfall - Toggle slowfall",
+                                                                "waterwalk , lavawalk - Toggle walking on liquids",
+                                                                "infbreath , breath - Never run out of breath",
+                                                                "thorns - Enemies take damage when they hit you",
+                                                                "gravctrl , grav , gravity - Toggle gravity control",
+                                                                "knockback , noknockback - Toggle wether you recieve knockback",
+                                                                "speed , speedhack , sh - Toggle and set speed hack",
+                                                                "reuse , autoreuse - Automatically reswing/cast/etc weapon or item.",
+                                                                "infammo - Infinate ammo",
+                                                                "infjump - Infinite extra jumps",
+                                                                "fastuse , usespeed , rapidfire - toggle and set rapid use of items or weapons",
+                                                                "noanimate - Toggle character use animations",
+                                                                "noprojectile",
+                                                                "capstats , fakehealth",
+                                                                "maxstack , infstack - Infinite items.",
+                                                                "gps , pos",
+                                                                "light , flashlight - Shine",
+                                                                "nodebuff , disabledebuff - No debuffs from enemies",
+                                                                "allowdelbuff",
+                                                                "maxrespawn fullrespawn",
+                                                                "instantspawn instantrespawn",
+                                                                "nofall , nofalldmg - Toggle falling damage",
+                                                                "showrecipes - toggle show all recipies",
+                                                                "uberdef , uberdefense - Extreeme defense",
+                                                                "superjump , sjump , jump - Toggle super jump",
+                                                                "fastmouse , mouserelease",
+                                                                "freecrafting - Toggle craft any item without need for resources",
+                                                                "invis , invisible - Toggle yourself invisable",
+                                                                "shoot",
+                                                                "ammo",
+                                                                "shootSpeed",
+                                                                "damage",
+                                                                "camfollow , watch",
+                                                                "stalk , follow",
+                                                                "camto",
+                                                                "tile , placetile",
+                                                                "wall , placewall",
+                                                                "liquid , placeliquid",
+                                                                "projectile",
+                                                                "drop",
+                                                                "tpmouse , mousetp",
+                                                                "resetmouse , mousereset",
+                                                                "removetile",
+                                                                "removewall",
+                                                                "removeliquid",
+                                                                "spawn , respawn",
+                                                                "tp , teleport",
+                                                                "clear",
+                                                                "recover",
+                                                                "killme",
+                                                                "kill",
+                                                                "killall , killplrs , killplayers",
+                                                                "bombplayers , bombplrs",
+                                                                "killmobs",
+                                                                "killnpcs",
+                                                                "backup - Backup invenntory (no persistant, use restore before closing terraria)",
+                                                                "restore - Restores the backed up inventory",
+                                                                "fullstack",
+                                                                "itemprefix",
+                                                                "item",
+                                                                "chest",
+                                                                "home - Go to your home point",
+                                                                "sethome - Set home point",
+                                                                "steal",
+                                                                "healplrs , healplayers , healall",
+                                                                "manaplrs , manaplayers , manaall",
+                                                                "heal",
+                                                                "give",
+                                                                "setstats",
+                                                                "repeat - Repeat the last command"
+                                                            };
+        public static List<string> bindings = new List<string> { }; //BlueFly
+        public static List<string> bindkeys = new List<string> { }; //BlueFly
+        public static bool cmdLimit = false; //BlueFly
         public static bool fullbright = false; //Doneski
         public static float fullbrightLevel = 0.8f; //Doneski
         public static bool noClip = false; //Doneski
@@ -416,6 +509,167 @@ namespace Terraria
             {
                 switch (cmd)
                 {
+                
+                    //BlueFly - Start
+
+                    case "help":
+                        {
+                            if (length > 2)
+                            {
+                                return false;
+                            }
+                            int helpPage;
+                            bool isInt = int.TryParse(args[1], out helpPage);
+                            if (!isInt)
+                            {
+                                helpPage = 1;
+                            }
+                            helpPage -= 1;
+                            int start = helpPage * 5;
+                            if (start > helptxt.Count - 1)
+                            {
+                                Main.NewText("No such help page", 255, 20, 20);
+                                return true;
+                            }
+                            int plus = helptxt.Count - start;
+                            if (plus > 5) plus = 5;
+                            int i = 0;
+                            Main.NewText("[Help page " + (helpPage + 1) + " of " + ((int)Math.Ceiling(helptxt.Count / 5.0)) + "]", 25, 240, 20);
+                            do
+                            {
+                                Main.NewText(helptxt[start + i], 255, 240, 20);
+                            }
+                            while (++i < plus);
+                            return true;
+                        }
+
+                    case "safe":
+                    case "limit":
+                        cmdLimit = !cmdLimit;
+                        return true;
+
+                    case "wipe":
+                        {
+                            cmdLimit = false; //BlueFly
+                            fullbright = false; //Doneski
+                            fullbrightLevel = 0.8f; //Doneski
+                            noClip = false; //Doneski
+                            accuratePlayers = false; //Doneski
+                            freeCam = false; //Doneski
+                            godMode = false; //Doneski
+                            undead = false; //Doneski
+                            infiniteMana = false; //Doneski
+                            tileRange = 4; //Doneski
+                            tracking = false; //Doneski
+                            infiniteRockets = false; //Doneski
+                            slowFall = false; //Doneski
+                            waterWalk = false; //Doneski
+                            infiniteBreath = false; //Doneski
+                            thorns = false; //Doneski
+                            gravityControl = false; //Doneski
+                            noKnockback = false; //Doneski
+                            speedHack = 1f; //Doneski
+                            autoReuse = false; //Doneski
+                            infiniteStack = false; //Doneski
+                            infiniteJump = false; //Doneski
+                            fastUse = 1; //Doneski
+                            noAnimateSend = false; //Doneski
+                            noProjectileSend = false; //Doneski
+                            noMovementSend = false;
+                            capNetStats = false; //Doneski
+                            forceMaxStack = false; //Doneski
+                            GPSDisplay = true; //Doneski
+                            flashlight = false; //Doneski
+                            showAllRecipes = false; //Doneski
+                            freeCrafting = false; //Doneski
+                            disableDebuffs = false; //Doneski
+                            allowRemoveDebuffs = true; //Doneski
+                            pickupRange = 38; //Doneski
+                            instantRespawn = false; //Doneski
+                            maxRespawn = false; //Doneski
+                            invisible = false; //Doneski
+                            showUI = true; //Doneski
+                            showRadar = true; //Doneski
+                            superJump = false; //Doneski
+                            uberDefense = false; //Doneski
+                            bypassNetMode = false; //Doneski
+                            useAlternativeSendData = false; //Doneski
+                            noFallDmg = false; //Doneski
+                            showInvis = false; //Doneski
+                            bombDOS = false;
+
+                            mouseMode = 0;
+                            mouseReleaseNeeded = true;
+                            brushType = 0;
+                            brushSize = 0;
+                            brushExtra = 0;
+
+                            followMode = 0;
+                            followTarget = 0;
+
+                            lastCommand = null;
+
+                            Main.NewText("Settings cleared.", 255, 240, 20);
+                            return true;
+                        }
+
+                    case "bind":
+                        {
+                            if (length < 3) return false;
+                            string gKey = args[1].ToUpper();
+                            List<string> usedKeys = new List<string> { Main.cUp, Main.cDown, Main.cLeft, Main.cRight, Main.cJump, Main.cThrowItem, Main.cInv, Main.cHeal, Main.cMana, Main.cBuff, Main.cHook, Main.cTorch, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+                            List<string> remove = new List<string>(args);
+                            usedKeys.AddRange(bindkeys.ToArray());
+                            if (!usedKeys.Contains(gKey))
+                            {
+                                bindkeys.Add(gKey);
+                                remove.RemoveRange(0, 2);
+                                bool first = true;
+                                string binds = "";
+                                foreach (string s in remove)
+                                {
+                                    if (!first)
+                                    {
+                                        binds += " " + s;
+                                    }
+                                    else
+                                    {
+                                        first = false;
+                                        binds += s;
+                                    }
+                                }
+                                bindings.Add(binds);
+                                Main.NewText(binds + " - bound on :" + gKey, 255, 240, 20);
+                                return true;
+                            }
+                            else
+                            {
+                                Main.NewText("Key already in use.", 255, 20, 20);
+                                return true;
+                            }
+                        }
+                    case "unbind":
+                        {
+                            if (length != 2)
+                            {
+                                return false;
+                            }
+                            string gKey = args[1].ToUpper();
+                            if (bindkeys.Contains(gKey))
+                            {
+                                int ind = bindkeys.IndexOf(gKey);
+                                bindings.RemoveAt(ind);
+                                bindkeys.RemoveAt(ind);
+                                Main.NewText("Key unbound.", 255, 240, 20);
+                                return true;
+                            }
+                            else
+                            {
+                                Main.NewText("Key not bound.", 255, 20, 20);
+                                return true;
+                            }
+                        }
+                    //BlueFly - End
 
                     case "bombdos":
                         bombDOS = !bombDOS;
@@ -485,6 +739,7 @@ namespace Terraria
                             tileRange = 4;
                         else
                             tileRange = 9999;
+                        if (cmdLimit && tileRange > 9999) tileRange = 9999; //BlueFly
                         return true;
 
                     case "pickup":
@@ -495,6 +750,7 @@ namespace Terraria
                             pickupRange = 38;
                         else
                             pickupRange = 9999;
+                        if (cmdLimit && pickupRange > 100) pickupRange = 100; //BlueFly
                         return true;
 
                     case "track":
@@ -557,6 +813,7 @@ namespace Terraria
                             speedHack = 1.0f;
                         else
                             speedHack = 3.0f;
+                        if (cmdLimit && speedHack > 10) speedHack = 10; //BlueFly
                         return true;
 
                     case "reuse":
@@ -581,6 +838,7 @@ namespace Terraria
                             fastUse = 1;
                         else
                             fastUse = 30;
+                        if (cmdLimit && fastUse > 10) fastUse = 10; //BlueFly
                         return true;
 
                     case "noanimate":
@@ -788,6 +1046,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 2;
                         Main.NewText("Tile brush enabled: " + tileType.ToString() + " (" + tileSize.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "wall":
@@ -810,6 +1069,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 3;
                         Main.NewText("Wall brush enabled: " + wallType.ToString() + " (" + wallSize.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "liquid":
@@ -837,6 +1097,7 @@ namespace Terraria
                             liquidAmount = 255;
                         mouseMode = 4;
                         Main.NewText("Liquid brush enabled: " + liquidType.ToString() + " (" + liquidSize.ToString() + ") (" + liquidAmount.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "projectile":
@@ -858,6 +1119,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 1;
                         Main.NewText("Projectile brush enabled: " + projectile.ToString() + " (" + count.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "drop":
@@ -879,6 +1141,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 8;
                         Main.NewText("Item drop brush enabled: " + itemType.ToString() + " (" + itemStack.ToString() + ")", 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "tpmouse":
@@ -908,6 +1171,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 5;
                         Main.NewText("Remove tile brush enabled: " + tsize.ToString(), 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "removewall":
@@ -924,6 +1188,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 6;
                         Main.NewText("Remove wall brush enabled: " + wsize.ToString(), 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "removeliquid":
@@ -940,6 +1205,7 @@ namespace Terraria
                             brushSize = 1;
                         mouseMode = 7;
                         Main.NewText("Remove liquid brush enabled: " + lsize.ToString(), 255, 240, 20);
+                        if (cmdLimit && brushSize > 50) brushSize = 50; //BlueFly
                         return true;
 
                     case "spawn":

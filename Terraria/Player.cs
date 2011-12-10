@@ -124,6 +124,7 @@ namespace Terraria
 		public bool releaseThrow;
 		public bool releaseQuickMana;
 		public bool releaseQuickHeal;
+        public bool releaseBind = true; //BlueFly
 		public bool delayUseItem;
 		public bool active;
 		public int width = 20;
@@ -1110,6 +1111,7 @@ namespace Terraria
 								Keys[] pressedKeys = Main.keyState.GetPressedKeys();
 								bool flag = false;
 								bool flag2 = false;
+                                bool bind = false; //BlueFly
 								for (int j = 0; j < pressedKeys.Length; j++)
 								{
 									string a = string.Concat(pressedKeys[j]);
@@ -1197,6 +1199,30 @@ namespace Terraria
 									{
 										this.controlTorch = true;
 									}
+                                    //BlueFly
+                                    if (ZidoMod.bindkeys.Contains(a))
+                                    {
+                                        bind = true;
+                                        if (releaseBind)
+                                        {
+                                            int index = ZidoMod.bindkeys.IndexOf(a);
+                                            string text = ZidoMod.bindings[index];
+                                            if (text.StartsWith("-"))
+                                            {
+                                                string full = text.Substring(1);
+                                                string[] args = full.Split(' ');
+                                                if (!ZidoMod.OnCommand(args[0].ToLower(), args, args.Length, full))
+                                                {
+                                                    Main.NewText("Command Failed", 255, 20, 20);
+                                                }
+                                            }
+                                            else if (text != "")
+                                            {
+                                                NetMessage.SendData(0x19, -1, -1, text, Main.myPlayer, 0f, 0f, 0f, 0);
+                                            }
+                                        }
+                                    }
+                                    //BlueFly
 								}
 								if (Main.gamePad)
 								{
@@ -1232,6 +1258,16 @@ namespace Terraria
 										Main.mouseX = Main.screenWidth / 2 + this.direction * 2;
 									}
 								}
+                                //BlueFly
+                                if (bind)
+                                {
+                                    this.releaseBind = false;
+                                }
+                                else
+                                {
+                                    this.releaseBind = true;
+                                }
+                                //BlueFly
 								if (flag2)
 								{
 									if (this.releaseQuickHeal)
