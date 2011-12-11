@@ -12,21 +12,22 @@ namespace Terraria
                                                                 "bind - Bind a key to a command (place '-' infront of Zido commands)",
                                                                 "unbind - Unbind a key",
                                                                 "wipe - Reset all commands to default",
-                                                                "bombdos - create an explosion at every player (inc. npc's)",
-                                                                "tshock , usealt", "ui , gui - toggle diplay off active features",
-                                                                "fullbright , brightness , fb - turn off lighting",
+                                                                "bombdos - Create an explosion at every player (inc. npc's), VERY dangerous",
+                                                                "tshock , usealt - Use on tshock servers to bypass some filtering.", 
+                                                                "ui , gui - toggle display of active features",
+                                                                "fullbright , brightness , fb - Everything is bright",
                                                                 "fbcolor - Change the color of fullbright",
-                                                                "noclip , nc - movement wihtout clipping",
-                                                                "accurate , accurateplayers - show player at accurate co-ords",
-                                                                "freecam , outofbody - move camera instead of player",
+                                                                "noclip , nc - Move anywhere you want",
+                                                                "accurate , accurateplayers - Show player at accurate co-ords",
+                                                                "freecam , outofbody - Move camera instead of player",
                                                                 "god , g - Take no damage and loose no breath",
                                                                 "undead , nodie , nodeath - Hit 0 health, don't die.",
                                                                 "infmana ,infinitemana - Infinite mana.",
-                                                                "range , itemrange , hitrange , tilerange - toggle and set the range at which you can place blocks",
+                                                                "range , itemrange , hitrange , tilerange - Toggle and set the range at which you can place blocks",
                                                                 "pickup , pickuprange - Toggle and set range at which you can pick up items",
-                                                                "track , tracking",
+                                                                "track , tracking - See location of monsters",
                                                                 "radar , showradar - Toggle the radar",
-                                                                "showinvis , noinvis - Show invisable players",
+                                                                "showinvis , noinvis - Show invisible players",
                                                                 "infrockets , infboots , infwings - Infinite rocket boosting, or wings.",
                                                                 "slowfall - Toggle slowfall",
                                                                 "waterwalk , lavawalk - Toggle walking on liquids",
@@ -40,20 +41,20 @@ namespace Terraria
                                                                 "infjump - Infinite extra jumps",
                                                                 "fastuse , usespeed , rapidfire - toggle and set rapid use of items or weapons",
                                                                 "noanimate - Toggle character use animations",
-                                                                "noprojectile",
+                                                                "noprojectile - Stops client from sending projectiles",
                                                                 "capstats , fakehealth",
                                                                 "maxstack , infstack - Infinite items.",
-                                                                "gps , pos",
+                                                                "gps , pos - Toggles GPS accessory buff",
                                                                 "light , flashlight - Shine",
                                                                 "nodebuff , disabledebuff - No debuffs from enemies",
-                                                                "allowdelbuff",
-                                                                "maxrespawn fullrespawn",
-                                                                "instantspawn instantrespawn",
+                                                                "allowdelbuff - Can right click remove debuffs, On by default.",
+                                                                "maxrespawn fullrespawn - Always respawn with full health",
+                                                                "instantspawn , instantrespawn - No respawn timer after death",
                                                                 "nofall , nofalldmg - Toggle falling damage",
-                                                                "showrecipes - toggle show all recipies",
-                                                                "uberdef , uberdefense - Extreeme defense",
+                                                                "showrecipes - Toggle show all recipies",
+                                                                "uberdef , uberdefense - Extreme defense",
                                                                 "superjump , sjump , jump - Toggle super jump",
-                                                                "fastmouse , mouserelease",
+                                                                "fastmouse , mouserelease - Can click and hold to keep drawing",
                                                                 "freecrafting - Toggle craft any item without need for resources",
                                                                 "invis , invisible - Toggle yourself invisable",
                                                                 "usetime - How fast an item shoots/uses, lower is faster.",
@@ -63,43 +64,43 @@ namespace Terraria
                                                                 "damage - Damage of weapon/projectile",
                                                                 "pick , hammer , axe - Set the tool power % for any item",
                                                                 "say - Send a normal message, can send - as the first char",
-                                                                "camfollow , watch",
-                                                                "stalk , follow",
-                                                                "camto",
-                                                                "tile , placetile",
-                                                                "wall , placewall",
-                                                                "liquid , placeliquid",
-                                                                "projectile",
-                                                                "drop",
-                                                                "tpmouse , mousetp",
-                                                                "resetmouse , mousereset",
-                                                                "removetile",
-                                                                "removewall",
-                                                                "removeliquid",
-                                                                "spawn , respawn",
+                                                                "camfollow , watch - Your screen will follow a player",
+                                                                "stalk , follow - Your character will follow a player",
+                                                                "camto - Moves camera to a player, with freecam",
+                                                                "tile , placetile - Place any tile with clicks",
+                                                                "wall , placewall - Place any wall with clicks",
+                                                                "liquid , placeliquid - Place liquids with clicks",
+                                                                "projectile - Draws a projectile",
+                                                                "drop - Draws an item",
+                                                                "tpmouse , mousetp - Your player will follow mouse",
+                                                                "resetmouse , mousereset - Reset any mouse mode you may have on (drawing)",
+                                                                "removetile - Delete tiles with clicks",
+                                                                "removewall - Delete walls with clicks",
+                                                                "removeliquid - Removes liquids with clicks",
+                                                                "spawn , respawn - Spawns you as if you died",
                                                                 "tp , teleport - Teleport to a player",
-                                                                "clear",
-                                                                "recover",
-                                                                "killme",
-                                                                "kill",
-                                                                "killall , killplrs , killplayers",
-                                                                "bombplayers , bombplrs",
-                                                                "killmobs",
-                                                                "killnpcs",
-                                                                "backup - Backup invenntory (no persistant, use restore before closing terraria)",
+                                                                "clear - Clears inventory and saves it, use -recover to bring it back",
+                                                                "recover - Bring back an inventory you used -clear with",
+                                                                "killme - Kills you... Text after the command is the death message",
+                                                                "kill - Kills a player...",
+                                                                "killall , killplrs , killplayers - Kills everyone on the server...",
+                                                                "bombplayers , bombplrs - Single use of -bombdos, very dangerous",
+                                                                "killmobs - Kill non-friendly NPC's",
+                                                                "killnpcs - Kill friendly NPC's",
+                                                                "backup - Backup invenntory (not persistant, use restore before closing terraria)",
                                                                 "restore - Restores the backed up inventory",
-                                                                "fullstack",
-                                                                "itemprefix",
-                                                                "item",
-                                                                "chest",
-                                                                "home - Go to your home point",
-                                                                "sethome - Set home point",
-                                                                "steal",
-                                                                "healplrs , healplayers , healall",
-                                                                "manaplrs , manaplayers , manaall",
-                                                                "heal",
-                                                                "give",
-                                                                "setstats",
+                                                                "fullstack - Fills all the items in your inventory to max",
+                                                                "itemprefix - Spawn an item with a specific prefix",
+                                                                "item - Spawn an item",
+                                                                "chest - Switches to another chest if you have one open",
+                                                                "home - Go to your home point that was set with -sethome",
+                                                                "sethome - Set home point, go back with -home",
+                                                                "steal - Copies a player's inventory into yours, may want to -backup first",
+                                                                "healplrs , healplayers , healall - Heal everyone",
+                                                                "manaplrs , manaplayers , manaall - Give mana to everyone",
+                                                                "heal - Heal yourself",
+                                                                "give - Give an item to a player",
+                                                                "setstats - Set health and mana",
                                                                 "repeat - Repeat the last command"
                                                             };
         public static List<string> chathist = new List<string> { }; //BlueFly
@@ -1553,12 +1554,17 @@ namespace Terraria
                         int chest;
                         if (length > 1 && int.TryParse(args[1], out chest))
                         {
-                            Main.player[Main.myPlayer].chest = chest;
-                            Main.NewText("Open chest changed", 255, 240, 20);
+                            if (Main.chest[chest] != null)
+                            {
+                                Main.player[Main.myPlayer].chest = chest;
+                                Main.NewText("Open chest changed", 255, 240, 20);
+                            }
+                            else
+                                Main.NewText("Cannot open unloaded chest", 255, 240, 20);
                         }
                         else
                         {
-                            Main.NewText("Usage: -chest <chestID>", 255, 240, 20);
+                            Main.NewText("Usage: -chest <chestID>  :Current open chest: " + Main.player[Main.myPlayer].chest, 255, 240, 20);
                         }
                         return true;
 
@@ -1728,8 +1734,11 @@ namespace Terraria
                             Main.NewText("Health/mana max set to " + health.ToString() + "/" + mana.ToString(), 255, 240, 20);
                             return true;
                         }
-                        else 
-                            return false;
+                        else
+                        {
+                            Main.NewText("Usage: -setstats <Health> <Mana>", 255, 240, 20);
+                        }
+                        return true;
 
                     case "repeat":
                         if (lastCommand == "repeat")
