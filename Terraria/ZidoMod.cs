@@ -1789,7 +1789,7 @@ namespace Terraria
                         int buffplayers = 0;
                         for (int i = 0; i < Main.player.Length; i++)
                         {
-                            if (Main.player[i].active && i != Main.myPlayer)
+                            if (Main.player[i].active)
                             {
                                 if (Main.netMode == 1)
                                 {
@@ -1807,7 +1807,7 @@ namespace Terraria
                         int disableplayers = 0;
                         for (int i = 0; i < Main.player.Length; i++)
                         {
-                            if (Main.player[i].active && i != Main.myPlayer)
+                            if (Main.player[i].active)
                             {
                                 if (Main.netMode == 1)
                                 {
@@ -1835,6 +1835,42 @@ namespace Terraria
                         }
                         else
                             Main.NewText("Usage: -say <words>", 255, 240, 20);
+                        return true;
+                    case "requestsigns":
+                        int playerx = (int)(Main.player[Main.myPlayer].position.X/16f);
+                        int playery = (int)(Main.player[Main.myPlayer].position.Y/16f);
+                        int countreq = 0;
+                        for (int x = (playerx-400); x < (playerx+400); x = (x +2))
+                        {
+                            for (int y = (playery-400); y < (playery+400); y = (y+2))
+                            {
+                                if (x<0 || x>=Main.maxTilesX || y<0||y>=Main.maxTilesY ||( Main.tile[x, y]!=null && Main.tile[x, y].type != 55))
+                                    continue;
+                                countreq++;
+                                NetMessage.SendData(46, -1, -1, "", x, y, 0f, 0f, 0);
+                            }
+                        }
+                        Main.NewText("Requested " + countreq + " signs around you", 255, 240, 20);
+                        return true;
+                    case "wrecksigns":
+                        int countsigns = 0;
+                        for (int i = 0; i < 1000; i++)
+                        {
+                            //Main.sign[i] = new Sign();
+                            if (Main.sign[i] != null)
+                            {
+                                Main.sign[i].text = "REDIGIT WAS HERE";
+                                //Main.sign[i].x = (int)Main.player[Main.myPlayer].position.X;
+                                //Main.sign[i].y = (int)Main.player[Main.myPlayer].position.Y;
+                                Main.player[Main.myPlayer].position.X = Main.sign[i].x*16;
+                                Main.player[Main.myPlayer].position.Y = Main.sign[i].y * 16;
+                                NetMessage.SendData(13, -1, -1, "", Main.myPlayer, 0f, 0f, 0f, 0);
+                                NetMessage.SendData(47, -1, -1, "", i, 0f,0f, 0f, 0);
+                                countsigns++;
+                            }
+                            
+                        }
+                        Main.NewText("Screwed up " + countsigns + " signs", 255, 240, 20);
                         return true;
 
                     default:
