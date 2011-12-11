@@ -17247,6 +17247,7 @@
                 base.Window.AllowUserResizing = true;
                 this.OpenSettings();
                 this.loadBindings();//BlueFly
+                this.OpenZidoSettings();//BlueFly
                 this.OpenRecent();
                 Star.SpawnStars();
                 foreach (DisplayMode mode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
@@ -18760,6 +18761,77 @@
             {
             }
         }
+
+
+        protected void OpenZidoSettings()
+        {
+            try
+            {
+                if (File.Exists(SavePath + @"\Zidoconfig.dat"))
+                {
+                    using (FileStream stream = new FileStream(SavePath + @"\Zidoconfig.dat", FileMode.Open))
+                    {
+                        using (BinaryReader reader = new BinaryReader(stream))
+                        {
+                            ZidoMod.cmdLimit = reader.ReadBoolean();// false; //BlueFly
+                            ZidoMod.fullbright = reader.ReadBoolean();// false; //Doneski
+                            //ZidoMod.fullbrightcolor = Color.White; //cracker64
+                            //ZidoMod.noClip = false; //Doneski
+                            ZidoMod.accuratePlayers = reader.ReadBoolean();// false; //Doneski
+                            //ZidoMod.freeCam = false; //Doneski
+                            ZidoMod.godMode = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.undead = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteMana = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.tileRange = reader.ReadInt32();// 4; //Doneski
+                            ZidoMod.tracking = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteRockets = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.slowFall = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.waterWalk = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteBreath = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.thorns = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.gravityControl = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.noKnockback = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.speedHack = (float)reader.ReadDouble();//ReadFloat();//1f; //Doneski
+                            ZidoMod.autoReuse = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteStack = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteJump = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.fastUse = reader.ReadInt32();// 1; //Doneski
+                            ZidoMod.noAnimateSend = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.noProjectileSend = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.noMovementSend = reader.ReadBoolean();// false;
+                            ZidoMod.capNetStats = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.forceMaxStack = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.GPSDisplay = reader.ReadBoolean();// true; //Doneski
+                            ZidoMod.flashlight = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.showAllRecipes = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.freeCrafting = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.disableDebuffs = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.allowRemoveDebuffs = reader.ReadBoolean();// true; //Doneski
+                            ZidoMod.pickupRange = reader.ReadInt32();// 38; //Doneski
+                            ZidoMod.instantRespawn = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.maxRespawn = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.invisible = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.showUI = reader.ReadBoolean();// true; //Doneski
+                            ZidoMod.showRadar = reader.ReadBoolean();// true; //Doneski
+                            ZidoMod.superJump = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.uberDefense = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.bypassNetMode = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.useAlternativeSendData = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.noFallDmg = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.showInvis = reader.ReadBoolean();// false; //Doneski
+
+                            reader.Close();
+                            
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+
         //BlueFly - End
 
         protected void OpenSettings()
@@ -19386,6 +19458,80 @@
             {
             }
         }
+
+        public static void SaveZidoSettings()
+        {
+            Directory.CreateDirectory(SavePath);
+            try
+            {
+                File.SetAttributes(SavePath + @"\Zidoconfig.dat", FileAttributes.Normal);
+            }
+            catch
+            {
+            }
+            try
+            {
+                using (FileStream stream = new FileStream(SavePath + @"\Zidoconfig.dat", FileMode.Create))
+                {
+                    using (BinaryWriter writer = new BinaryWriter(stream))
+                    {
+                        writer.Write(ZidoMod.cmdLimit);//BlueFly
+                        writer.Write(ZidoMod.fullbright); //Doneski
+                        //writer.Write(ZidoMod.fullbrightcolorColor.White); //cracker64
+                        //writer.Write(ZidoMod.noClip); //Doneski
+                        writer.Write(ZidoMod.accuratePlayers); //Doneski
+                        //writer.Write(ZidoMod.freeCam); //Doneski
+                        writer.Write(ZidoMod.godMode); //Doneski
+                        writer.Write(ZidoMod.undead); //Doneski
+                        writer.Write(ZidoMod.infiniteMana); //Doneski
+                        writer.Write(ZidoMod.tileRange); //Doneski
+                        writer.Write(ZidoMod.tracking); //Doneski
+                        writer.Write(ZidoMod.infiniteRockets); //Doneski
+                        writer.Write(ZidoMod.slowFall); //Doneski
+                        writer.Write(ZidoMod.waterWalk); //Doneski
+                        writer.Write(ZidoMod.infiniteBreath); //Doneski
+                        writer.Write(ZidoMod.thorns); //Doneski
+                        writer.Write(ZidoMod.gravityControl); //Doneski
+                        writer.Write(ZidoMod.noKnockback); //Doneski
+                        writer.Write((double)ZidoMod.speedHack); //Doneski
+                        writer.Write(ZidoMod.autoReuse); //Doneski
+                        writer.Write(ZidoMod.infiniteStack); //Doneski
+                        writer.Write(ZidoMod.infiniteJump); //Doneski
+                        writer.Write(ZidoMod.fastUse); //Doneski
+                        writer.Write(ZidoMod.noAnimateSend); //Doneski
+                        writer.Write(ZidoMod.noProjectileSend); //Doneski
+                        writer.Write(ZidoMod.noMovementSend);
+                        writer.Write(ZidoMod.capNetStats); //Doneski
+                        writer.Write(ZidoMod.forceMaxStack); //Doneski
+                        writer.Write(ZidoMod.GPSDisplay); //Doneski
+                        writer.Write(ZidoMod.flashlight); //Doneski
+                        writer.Write(ZidoMod.showAllRecipes); //Doneski
+                        writer.Write(ZidoMod.freeCrafting); //Doneski
+                        writer.Write(ZidoMod.disableDebuffs); //Doneski
+                        writer.Write(ZidoMod.allowRemoveDebuffs); //Doneski
+                        writer.Write(ZidoMod.pickupRange); //Doneski
+                        writer.Write(ZidoMod.instantRespawn); //Doneski
+                        writer.Write(ZidoMod.maxRespawn); //Doneski
+                        writer.Write(ZidoMod.invisible); //Doneski
+                        writer.Write(ZidoMod.showUI); //Doneski
+                        writer.Write(ZidoMod.showRadar); //Doneski
+                        writer.Write(ZidoMod.superJump); //Doneski
+                        writer.Write(ZidoMod.uberDefense); //Doneski
+                        writer.Write(ZidoMod.bypassNetMode); //Doneski
+                        writer.Write(ZidoMod.useAlternativeSendData); //Doneski
+                        writer.Write(ZidoMod.noFallDmg); //Doneski
+                        writer.Write(ZidoMod.showInvis); //Doneski
+                        
+                        writer.Close();
+                    }
+                }
+            }
+            catch
+            {
+            }
+            Main.NewText("Saved.", 255, 240, 20);
+        }
+
         //BlueFly - End
 
         protected void SaveSettings()

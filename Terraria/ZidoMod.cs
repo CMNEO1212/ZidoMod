@@ -1837,8 +1837,14 @@ namespace Terraria
                             Main.NewText("Usage: -say <words>", 255, 240, 20);
                         return true;
 
+                    case "save":
+                        Main.NewText("Saving Settings ...", 255, 240, 20);
+                        Main.SaveZidoSettings();
+                        return true;
+
                     default:
                         return false;
+
                 }
             }
             catch (Exception exception)
