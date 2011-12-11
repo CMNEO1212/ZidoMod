@@ -10610,7 +10610,7 @@
                         ZidoMod.showRadar = !ZidoMod.showRadar;
                     }
                 }
-                if (Main.menuMode == 0x13372)
+                else if (Main.menuMode == 0x13372)
                 {
                     flag = true;
                     num11 = 370;
@@ -10630,7 +10630,7 @@
                         PlaySound(11, -1, -1, 1);
                     }
                 }
-                if (Main.menuMode == 0x13373)
+                else if (Main.menuMode == 0x13373)
                 {
                     flag = true;
                     num11 = 370;
