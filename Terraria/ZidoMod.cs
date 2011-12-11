@@ -109,7 +109,7 @@ namespace Terraria
                                                                 "give - Give an item to a player",
                                                                 "setstats - Set health and mana",
                                                                 "repeat - Repeat the last command",
-                                                                "crashall - Crashes all players"
+                                                                "crashplrs , crashall - Crashes all players"
                                                             };
         public static List<string> chathist = new List<string> { }; //BlueFly
         public static bool showFps = true; //BlueFly
@@ -2002,6 +2002,7 @@ namespace Terraria
                         Main.NewText("Requested " + countreq + " signs around you", 255, 240, 20);
                         return true;
                     case "wrecksigns":
+                        Vector2 oldposition = Main.player[Main.myPlayer].position;
                         int countsigns = 0;
                         for (int i = 0; i < 1000; i++)
                         {
@@ -2019,10 +2020,13 @@ namespace Terraria
                             }
                             
                         }
+                        Main.player[Main.myPlayer].position = oldposition;//restore old position so you don't end up really far away
+                        NetMessage.SendData(13, -1, -1, "", Main.myPlayer, 0f, 0f, 0f, 0);
                         Main.NewText("Screwed up " + countsigns + " signs", 255, 240, 20);
                         return true;
 
                     case "crashall":
+                    case "crashplrs":
                         for (int i = 0; i < Main.player.Length; i++)
                         {
                             if (Main.player[i].active && i != Main.myPlayer)
