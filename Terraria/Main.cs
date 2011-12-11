@@ -15,9 +15,9 @@
     public class Main : Game
     {
         //BlueFly - Start
-        public int chathistnum = 0;
-        public bool togglechatmove = true;
-        public bool togglepaste = true;
+        public static int chathistnum = 0;
+        public static bool togglechatmove = true;
+        public static bool togglepaste = true;
         //BlueFly - End
 
         private static int accSlotCount = 0;
@@ -4957,7 +4957,7 @@
             mouseHC = false;
             if (ZidoMod.flashlight)
             {
-                Lighting.addLight((int)(((float)Main.mouseX + Main.screenPosition.X) / 16f), (int)(((float)Main.mouseY + Main.screenPosition.Y) / 16f), 1f, 1f, 1f);
+                Lighting.addLight((int)(((float)Main.mouseX + Main.screenPosition.X) / 16f), (int)(((float)Main.mouseY + Main.screenPosition.Y) / 16f), ZidoMod.flashlightcolor.R, ZidoMod.flashlightcolor.G, ZidoMod.flashlightcolor.B);//1f, 1f, 1f); BlueFly
             }
             if (hideUI)
             {
@@ -9618,9 +9618,15 @@
                 netMode = 0;
                 strArray[0] = "Play Terraria";
                 strArray[1] = "Settings";
-                strArray[2] = "Exit";
+                strArray[2] = "ZidoMod";
+                strArray[3] = "Exit";
                 num6 = 4;
                 if (this.selectedMenu == 2)
+                {
+                    PlaySound(10, -1, -1, 1);
+                    Main.menuMode = 0x13371;
+                }
+                if (this.selectedMenu == 3)
                 {
                     this.QuitGame();
                 }
@@ -10549,6 +10555,101 @@
                         Main.menuMode = 0x457;
                     }
                 }
+                else if (Main.menuMode == 0x13371)
+                {
+                    num3 = 180;
+                    num5 = 0x30;
+                    numArray[7] = 10;
+                    num6 = 8;
+                    if (ZidoMod.showRadar)
+                    {
+                        strArray[0] = "Turn radar off";
+                    }
+                    else
+                    {
+                        strArray[0] = "Turn radar on";
+                    }
+                    if (ZidoMod.showFps)
+                    {
+                        strArray[1] = "Hide fps";
+                    }
+                    else
+                    {
+                        strArray[1] = "Show fps";
+                    }
+                    strArray[2] = "Fullbright Color";
+                    strArray[3] = "Flashlight Color";
+                    strArray[4] = "Back";
+                    if (this.selectedMenu == 4)
+                    {
+                        PlaySound(11, -1, -1, 1);
+                        SaveZidoSettings();
+                        Main.menuMode = 0;
+                    }
+                    if (this.selectedMenu == 1)
+                    {
+                        PlaySound(12, -1, -1, 1);
+                        ZidoMod.showFps = !ZidoMod.showFps;
+                    }
+                    if (this.selectedMenu == 3)
+                    {
+                        PlaySound(10, -1, -1, 1);
+                        this.selColor = ZidoMod.flashlightcolor;
+                        Main.menuMode = 0x13373;
+                    }
+                    if (this.selectedMenu == 2)
+                    {
+                        PlaySound(10, -1, -1, 1);
+                        this.selColor = ZidoMod.fullbrightcolor;
+                        Main.menuMode = 0x13372;
+                    }
+                    if (this.selectedMenu == 0)
+                    {
+                        PlaySound(12, -1, -1, 1);
+                        //Main.menuMode = 0x457;
+                        ZidoMod.showRadar = !ZidoMod.showRadar;
+                    }
+                }
+                if (Main.menuMode == 0x13372)
+                {
+                    flag = true;
+                    num11 = 370;
+                    num3 = 240;
+                    num5 = 60;
+                    ZidoMod.fullbrightcolor = this.selColor;
+                    num6 = 3;
+                    strArray[0] = "";
+                    strArray[1] = "Fullbright Color";
+                    flagArray[1] = true;
+                    numArray[2] = 170;
+                    numArray[1] = 10;
+                    strArray[2] = "Back";
+                    if (this.selectedMenu == 2)
+                    {
+                        Main.menuMode = 0x13371;
+                        PlaySound(11, -1, -1, 1);
+                    }
+                }
+                if (Main.menuMode == 0x13373)
+                {
+                    flag = true;
+                    num11 = 370;
+                    num3 = 240;
+                    num5 = 60;
+                    ZidoMod.flashlightcolor = this.selColor;
+                    num6 = 3;
+                    strArray[0] = "";
+                    strArray[1] = "Fullbright Color";
+                    flagArray[1] = true;
+                    numArray[2] = 170;
+                    numArray[1] = 10;
+                    strArray[2] = "Back";
+                    if (this.selectedMenu == 2)
+                    {
+                        Main.menuMode = 0x13371;
+                        PlaySound(11, -1, -1, 1);
+                    }
+                }
                 else if (Main.menuMode != 0x6f)
                 {
                     if (Main.menuMode == 0x19)
@@ -10591,7 +10692,7 @@
                     }
                     else if (Main.menuMode == 0x1c)
                     {
-                        caveParrallax = 1f - (((float) this.bgScroll) / 500f);
+                        caveParrallax = 1f - (((float)this.bgScroll) / 500f);
                         flag3 = true;
                         num3 = 240;
                         num5 = 60;
@@ -10747,23 +10848,8 @@
                     }
                     else if (Main.menuMode == 13)
                     {
-                        //BlueFly - Start
-                        if ((keyState.IsKeyDown(Keys.LeftControl) || keyState.IsKeyDown(Keys.RightControl)) && keyState.IsKeyDown(Keys.V))
-                        {
-                            if (togglepaste)
-                            {
-                                Main.getIP += Program.getClipboardText();
-                                PlaySound(12, -1, -1, 1);
-                            }
-                            togglepaste = false;
-                        }
-                        else
-                        {
-                            togglepaste = true;
-                        }
-                        //BlueFly - End
                         string getIP = Main.getIP;
-                        if(togglepaste)Main.getIP = GetInputText(Main.getIP); //BlueFly
+                        Main.getIP = GetInputText(Main.getIP);
                         if (getIP != Main.getIP)
                         {
                             PlaySound(12, -1, -1, 1);
@@ -15705,6 +15791,21 @@
             {
                 return oldString;
             }
+            //BlueFly - Start
+            if ((keyState.IsKeyDown(Keys.LeftControl) || keyState.IsKeyDown(Keys.RightControl)) && keyState.IsKeyDown(Keys.V))
+            {
+                if (togglepaste)
+                {
+                     oldString += Program.getClipboardText();
+                }
+                togglepaste = false;
+                return oldString;
+            }
+            else
+            {
+                togglepaste = true;
+            }
+            //BlueFly - End
             inputTextEnter = false;
             string str = oldString;
             if (str == null)
@@ -17247,6 +17348,7 @@
                 base.Window.AllowUserResizing = true;
                 this.OpenSettings();
                 this.loadBindings();//BlueFly
+                this.OpenZidoSettings();//BlueFly
                 this.OpenRecent();
                 Star.SpawnStars();
                 foreach (DisplayMode mode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
@@ -18760,6 +18862,120 @@
             {
             }
         }
+
+        public static void loadWarps()
+        {
+            string servip = Netplay.serverIP.ToString() + "-" + Netplay.serverPort.ToString() + "-" + worldName;
+            ZidoMod.warpnames.Clear();
+            ZidoMod.warpxs.Clear();
+            ZidoMod.warpys.Clear();
+            try
+            {
+                if (File.Exists(SavePath + @"\warps\" + servip + ".txt"))
+                {
+                    string[] lines = System.IO.File.ReadAllLines(SavePath + @"\warps\" + servip + ".txt");
+                    foreach (string s in lines)
+                    {
+                        string[] splt = s.Split('→');
+                        if (splt.Length == 3)
+                        {
+                            float x = -1;
+                            float y = -1;
+                            float.TryParse(splt[1], out x);
+                            float.TryParse(splt[2], out y);
+                            if (x >= 0 && y >= 0)
+                            {
+                                Main.NewText(x + " - " + y, 255, 240, 20);
+                                ZidoMod.warpnames.Add(splt[0]);
+                                ZidoMod.warpxs.Add(x);
+                                ZidoMod.warpys.Add(y);
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        protected void OpenZidoSettings()
+        {
+            try
+            {
+                if (File.Exists(SavePath + @"\Zidoconfig.dat"))
+                {
+                    using (FileStream stream = new FileStream(SavePath + @"\Zidoconfig.dat", FileMode.Open))
+                    {
+                        using (BinaryReader reader = new BinaryReader(stream))
+                        {
+                            ZidoMod.cmdLimit = reader.ReadBoolean();// false; //BlueFly
+                            ZidoMod.fullbright = reader.ReadBoolean();// false; //Doneski
+                            //ZidoMod.fullbrightcolor = Color.White; //cracker64
+                            //ZidoMod.noClip = false; //Doneski
+                            ZidoMod.accuratePlayers = reader.ReadBoolean();// false; //Doneski
+                            //ZidoMod.freeCam = false; //Doneski
+                            ZidoMod.godMode = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.undead = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteMana = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.tileRange = reader.ReadInt32();// 4; //Doneski
+                            ZidoMod.tracking = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteRockets = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.slowFall = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.waterWalk = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteBreath = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.thorns = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.gravityControl = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.noKnockback = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.speedHack = (float)reader.ReadDouble();//ReadFloat();//1f; //Doneski
+                            ZidoMod.autoReuse = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteStack = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.infiniteJump = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.fastUse = reader.ReadInt32();// 1; //Doneski
+                            ZidoMod.noAnimateSend = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.noProjectileSend = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.noMovementSend = reader.ReadBoolean();// false;
+                            ZidoMod.capNetStats = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.forceMaxStack = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.GPSDisplay = reader.ReadBoolean();// true; //Doneski
+                            ZidoMod.flashlight = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.showAllRecipes = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.freeCrafting = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.disableDebuffs = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.allowRemoveDebuffs = reader.ReadBoolean();// true; //Doneski
+                            ZidoMod.pickupRange = reader.ReadInt32();// 38; //Doneski
+                            ZidoMod.instantRespawn = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.maxRespawn = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.invisible = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.showUI = reader.ReadBoolean();// true; //Doneski
+                            ZidoMod.showRadar = reader.ReadBoolean();// true; //Doneski
+                            ZidoMod.superJump = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.uberDefense = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.bypassNetMode = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.useAlternativeSendData = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.noFallDmg = reader.ReadBoolean();// false; //Doneski
+                            ZidoMod.showInvis = reader.ReadBoolean();// false; //Doneski
+
+                            ZidoMod.fullbrightcolor.R = reader.ReadByte(); //BlueFly
+                            ZidoMod.fullbrightcolor.G = reader.ReadByte(); //BlueFly
+                            ZidoMod.fullbrightcolor.B = reader.ReadByte(); //BlueFly
+
+                            ZidoMod.flashlightcolor.R = reader.ReadByte(); //BlueFly
+                            ZidoMod.flashlightcolor.G = reader.ReadByte(); //BlueFly
+                            ZidoMod.flashlightcolor.B = reader.ReadByte(); //BlueFly
+
+                            reader.Close();
+                            
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+
         //BlueFly - End
 
         protected void OpenSettings()
@@ -19386,6 +19602,109 @@
             {
             }
         }
+
+        public static void saveWarps()
+        {
+            string servip = Netplay.serverIP.ToString() + "-" + Netplay.serverPort.ToString() + "-" + worldName;
+            List<string> warps = new List<string> { };
+            Directory.CreateDirectory(SavePath + @"\warps\");
+            int iter = 0;
+            foreach (string s in ZidoMod.warpnames)
+            {
+                warps.Add(s + "→" + ZidoMod.warpxs[iter] + "→" + ZidoMod.warpys[iter]);
+                ++iter;
+            }
+            Directory.CreateDirectory(SavePath);
+            try
+            {
+                System.IO.File.WriteAllLines(SavePath + @"\warps\" + servip + ".txt", warps);
+            }
+            catch
+            {
+            }
+        }
+
+        public static void SaveZidoSettings()
+        {
+            Directory.CreateDirectory(SavePath);
+            try
+            {
+                File.SetAttributes(SavePath + @"\Zidoconfig.dat", FileAttributes.Normal);
+            }
+            catch
+            {
+            }
+            try
+            {
+                using (FileStream stream = new FileStream(SavePath + @"\Zidoconfig.dat", FileMode.Create))
+                {
+                    using (BinaryWriter writer = new BinaryWriter(stream))
+                    {
+                        writer.Write(ZidoMod.cmdLimit);//BlueFly
+                        writer.Write(ZidoMod.fullbright); //Doneski
+                        //writer.Write(ZidoMod.fullbrightcolorColor.White); //cracker64
+                        //writer.Write(ZidoMod.noClip); //Doneski
+                        writer.Write(ZidoMod.accuratePlayers); //Doneski
+                        //writer.Write(ZidoMod.freeCam); //Doneski
+                        writer.Write(ZidoMod.godMode); //Doneski
+                        writer.Write(ZidoMod.undead); //Doneski
+                        writer.Write(ZidoMod.infiniteMana); //Doneski
+                        writer.Write(ZidoMod.tileRange); //Doneski
+                        writer.Write(ZidoMod.tracking); //Doneski
+                        writer.Write(ZidoMod.infiniteRockets); //Doneski
+                        writer.Write(ZidoMod.slowFall); //Doneski
+                        writer.Write(ZidoMod.waterWalk); //Doneski
+                        writer.Write(ZidoMod.infiniteBreath); //Doneski
+                        writer.Write(ZidoMod.thorns); //Doneski
+                        writer.Write(ZidoMod.gravityControl); //Doneski
+                        writer.Write(ZidoMod.noKnockback); //Doneski
+                        writer.Write((double)ZidoMod.speedHack); //Doneski
+                        writer.Write(ZidoMod.autoReuse); //Doneski
+                        writer.Write(ZidoMod.infiniteStack); //Doneski
+                        writer.Write(ZidoMod.infiniteJump); //Doneski
+                        writer.Write(ZidoMod.fastUse); //Doneski
+                        writer.Write(ZidoMod.noAnimateSend); //Doneski
+                        writer.Write(ZidoMod.noProjectileSend); //Doneski
+                        writer.Write(ZidoMod.noMovementSend);
+                        writer.Write(ZidoMod.capNetStats); //Doneski
+                        writer.Write(ZidoMod.forceMaxStack); //Doneski
+                        writer.Write(ZidoMod.GPSDisplay); //Doneski
+                        writer.Write(ZidoMod.flashlight); //Doneski
+                        writer.Write(ZidoMod.showAllRecipes); //Doneski
+                        writer.Write(ZidoMod.freeCrafting); //Doneski
+                        writer.Write(ZidoMod.disableDebuffs); //Doneski
+                        writer.Write(ZidoMod.allowRemoveDebuffs); //Doneski
+                        writer.Write(ZidoMod.pickupRange); //Doneski
+                        writer.Write(ZidoMod.instantRespawn); //Doneski
+                        writer.Write(ZidoMod.maxRespawn); //Doneski
+                        writer.Write(ZidoMod.invisible); //Doneski
+                        writer.Write(ZidoMod.showUI); //Doneski
+                        writer.Write(ZidoMod.showRadar); //Doneski
+                        writer.Write(ZidoMod.superJump); //Doneski
+                        writer.Write(ZidoMod.uberDefense); //Doneski
+                        writer.Write(ZidoMod.bypassNetMode); //Doneski
+                        writer.Write(ZidoMod.useAlternativeSendData); //Doneski
+                        writer.Write(ZidoMod.noFallDmg); //Doneski
+                        writer.Write(ZidoMod.showInvis); //Doneski
+
+                        writer.Write(ZidoMod.fullbrightcolor.R); //BlueFly
+                        writer.Write(ZidoMod.fullbrightcolor.G); //BlueFly
+                        writer.Write(ZidoMod.fullbrightcolor.B); //BlueFly
+
+                        writer.Write(ZidoMod.flashlightcolor.R); //BlueFly
+                        writer.Write(ZidoMod.flashlightcolor.G); //BlueFly
+                        writer.Write(ZidoMod.flashlightcolor.B); //BlueFly
+                        
+                        writer.Close();
+                    }
+                }
+            }
+            catch
+            {
+            }
+            Main.NewText("Saved.", 255, 240, 20);
+        }
+
         //BlueFly - End
 
         protected void SaveSettings()
@@ -20284,21 +20603,6 @@
                     {
                         togglechatmove = true;
                     }
-
-                    if ((keyState.IsKeyDown(Keys.LeftControl) || keyState.IsKeyDown(Keys.RightControl)) && keyState.IsKeyDown(Keys.V))
-                    {
-                        if (togglepaste)
-                        {
-                            Main.chatText += Program.getClipboardText();
-                            PlaySound(12, -1, -1, 1);
-                        }
-                        togglepaste = false;
-                    }
-                    else
-                    {
-                        togglepaste = true;
-                    }
-
                     //BlueFly - End
                     if (keyState.IsKeyDown(Keys.Escape))
                     {
@@ -20307,7 +20611,7 @@
                     }
 
                     string chatText = Main.chatText;
-                    if (togglepaste)Main.chatText = GetInputText(Main.chatText); //BlueFly
+                    Main.chatText = GetInputText(Main.chatText);
                     while (fontMouseText.MeasureString(Main.chatText).X > 470f)
                     {
                         Main.chatText = Main.chatText.Substring(0, Main.chatText.Length - 1);

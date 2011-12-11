@@ -9,6 +9,7 @@ namespace Terraria
 	class ZidoMod
 	{
         public static List<string> helptxt = new List<string> {
+                                                                "save - Saves your current loadout of ZidoMod settings",
                                                                 "bind - Bind a key to a command (place '-' infront of Zido commands)",
                                                                 "unbind - Unbind a key",
                                                                 "wipe - Reset all commands to default",
@@ -17,6 +18,11 @@ namespace Terraria
                                                                 "ui , gui - toggle display of active features",
                                                                 "fullbright , brightness , fb - Everything is bright",
                                                                 "fbcolor - Change the color of fullbright",
+                                                                "warp - warps to a saved warp position (-warp [warp name])",
+                                                                "setwarp - sets a warp at your position (-setwarp [warp name])",
+                                                                "delwarp - deletes a warp position (-delwarp [warp name])",
+                                                                "wipewarps - deletes all warps store for this server",
+                                                                "loadwarps - loads warps for this",
                                                                 "noclip , nc - Move anywhere you want",
                                                                 "accurate , accurateplayers - Show player at accurate co-ords",
                                                                 "freecam , outofbody - Move camera instead of player",
@@ -45,7 +51,8 @@ namespace Terraria
                                                                 "capstats , fakehealth",
                                                                 "maxstack , infstack - Infinite items.",
                                                                 "gps , pos - Toggles GPS accessory buff",
-                                                                "light , flashlight - Shine",
+                                                                "light , flashlight - A light that follows your cursor",
+                                                                "flashcolor - can set colour of flashlight (-flashcolor [R] [G] [B]",
                                                                 "nodebuff , disabledebuff - No debuffs from enemies",
                                                                 "allowdelbuff - Can right click remove debuffs, On by default.",
                                                                 "maxrespawn fullrespawn - Always respawn with full health",
@@ -108,6 +115,9 @@ namespace Terraria
         public static bool showFps = true; //BlueFly
         public static List<string> bindings = new List<string> { }; //BlueFly
         public static List<string> bindkeys = new List<string> { }; //BlueFly
+        public static List<string> warpnames = new List<string> { }; //BlueFly
+        public static List<float> warpxs = new List<float> { }; //BlueFly
+        public static List<float> warpys = new List<float> { }; //BlueFly
         public static bool cmdLimit = false; //BlueFly
         public static bool fullbright = false; //Doneski
         public static Color fullbrightcolor = Color.White;//cracker64
@@ -138,6 +148,7 @@ namespace Terraria
         public static bool forceMaxStack = false; //Doneski
         public static bool GPSDisplay = true; //Doneski
         public static bool flashlight = false; //Doneski
+        public static Color flashlightcolor = Color.FromNonPremultiplied(10, 10, 10, 10);//BlueFly
         public static bool showAllRecipes = false; //Doneski
         public static bool freeCrafting = false; //Doneski
         public static bool disableDebuffs = false; //Doneski
@@ -175,6 +186,11 @@ namespace Terraria
         public static Item[] recoveryArmor = new Item[11];
         public static Vector2 homeLoc = new Vector2(0, 0);
         public static string lastCommand;
+
+        public static void nosplash()
+        {
+            Main.showSplash = false;
+        }
 
         public static Color GetStatusColor(bool test)
         {
@@ -517,7 +533,11 @@ namespace Terraria
 
         public static bool pages(List<string> lst, string prefix,string pg,byte r,byte g,byte b)
         {
-
+            if (lst.Count < 1)
+            {
+                Main.NewText("No " + prefix + " found.", 255, 20, 20);
+                return true;
+            }
             int page = 0;
             bool isInt = int.TryParse(pg, out page);
             if (!isInt)
@@ -555,6 +575,117 @@ namespace Terraria
                 {
                 
                     //BlueFly - Start
+
+                    case "save":
+                        Main.NewText("Saving Settings ...", 255, 240, 20);
+                        Main.SaveZidoSettings();
+                        return true;
+
+                    case "warp":
+                        if (length < 2)
+                        {
+                            Main.NewText("No warp name specified (-warp [warp name]).", 255, 20, 20);
+                            return true;
+                        }
+                        string warpname = full.ToLower();
+                        warpname = warpname.Substring(warpname.IndexOf(" ") + 1);
+                        if (warpnames.Contains(warpname))
+                        {
+                            int warpindex = warpnames.IndexOf(warpname);
+                            Vector2 warppos;
+                            warppos.X = warpxs[warpindex];
+                            warppos.Y = warpys[warpindex];
+                            Main.player[Main.myPlayer].position = warppos;
+                            Main.NewText("Warped to " + warpname, 255, 240, 20);
+                            return true;
+                        }
+                        else
+                        {
+                            Main.NewText("No such warp.", 255, 20, 20);
+                            return true;
+                        }
+
+                    case "setwarp":
+                        {
+                            if (length < 2)
+                            {
+                                Main.NewText("No warp name specified (-setwarp [warp name]).", 255, 20, 20);
+                                return true;
+                            }
+                            string warpnameset = full.ToLower();
+                            warpnameset = warpnameset.Substring(warpnameset.IndexOf(" ") + 1);
+                            if (warpnames.Contains(warpnameset))
+                            {
+                                Main.NewText("Warp name already in use.", 255, 20, 20);
+                                return true;
+                            }
+                            warpnames.Add(warpnameset);
+                            Vector2 playerpos = Main.player[Main.myPlayer].position;
+                            warpxs.Add(playerpos.X);
+                            warpys.Add(playerpos.Y);
+                            Main.NewText("Warp '" + warpnameset + "' set at '" + playerpos.X + "," + playerpos.Y + "'.", 255, 240, 20);
+                            Main.saveWarps();
+                            return true;
+                        }
+
+                    case "delwarp":
+                        {
+                            if (length < 2)
+                            {
+                                Main.NewText("No warp name specified (-delwarp [warp name]).", 255, 20, 20);
+                                return true;
+                            }
+                            string warpnamedel = full.ToLower();
+                            warpnamedel = warpnamedel.Substring(warpnamedel.IndexOf(" ") + 1);
+                            if (warpnames.Contains(warpnamedel))
+                            {
+                                int warpindex = warpnames.IndexOf(warpnamedel);
+                                warpnames.RemoveAt(warpindex);
+                                warpxs.RemoveAt(warpindex);
+                                warpys.RemoveAt(warpindex);
+                                Main.NewText("Warp " + warpnamedel + " deleted.", 255, 240, 20);
+                                Main.saveWarps();
+                                return true;
+                            }
+                            else
+                            {
+                                Main.NewText("No such warp.", 255, 20, 20);
+                                return true;
+                            }
+                        }
+
+                    case "wipewarps":
+                        {
+                            warpnames.Clear();
+                            warpxs.Clear();
+                            warpys.Clear();
+                            Main.NewText("All warps deleted.", 255, 240, 20);
+                            Main.saveWarps();
+                            return true;
+                        }
+
+                    case "warps":
+                        {
+                            if (length > 2)
+                            {
+                                Main.NewText("Usage: -warps <page>", 255, 20, 20);
+                                return true;
+                            }
+                            string num = "0";
+                            if (length == 2) num = args[1];
+                            if (!pages(warpnames, "Warps", num, 25, 240, 20))
+                            {
+                                Main.NewText("Invalid page.", 255, 20, 20);
+                            }
+                            return true;
+                        }
+
+                    case "loadwarps":
+                        {
+                            Main.loadWarps();
+                            Main.NewText("Loading warps...", 255, 240, 20);
+                            return true;
+                        }
 
                     case "fps":
                     case "showfps":
@@ -614,6 +745,7 @@ namespace Terraria
                             forceMaxStack = false; //Doneski
                             GPSDisplay = true; //Doneski
                             flashlight = false; //Doneski
+                            flashlightcolor = Color.FromNonPremultiplied(10,10,10,10);//BlueFly
                             showAllRecipes = false; //Doneski
                             freeCrafting = false; //Doneski
                             disableDebuffs = false; //Doneski
@@ -644,6 +776,7 @@ namespace Terraria
                             lastCommand = null;
 
                             Main.NewText("Settings cleared.", 255, 240, 20);
+                            Main.SaveZidoSettings();
                             return true;
                         }
 
@@ -961,6 +1094,27 @@ namespace Terraria
                     case "flashlight":
                         flashlight = !flashlight;
                         return true;
+
+                    //BlueFly - Start (credit to cracker64 (code used from fullbright color)
+                    case "flashcolor":
+                        if (length == 4)
+                        {
+                            byte R = 255;
+                            byte G = 255;
+                            byte B = 255;
+                            byte.TryParse(args[1], out R);
+                            byte.TryParse(args[2], out G);
+                            byte.TryParse(args[3], out B);
+                            flashlightcolor.R = R;
+                            flashlightcolor.G = G;
+                            flashlightcolor.B = B;
+                        }
+                        else if(length > 1)
+                        {
+                            Main.NewText("Usage: -flashlight [R] [G] [B]  (0-255 please)", 255, 240, 20);
+                        }
+                        return true;
+                    //BlueFly - End
 
                     case "nodebuff":
                     case "disabledebuff":
@@ -1790,7 +1944,7 @@ namespace Terraria
                         int buffplayers = 0;
                         for (int i = 0; i < Main.player.Length; i++)
                         {
-                            if (Main.player[i].active && i != Main.myPlayer)
+                            if (Main.player[i].active)
                             {
                                 if (Main.netMode == 1)
                                 {
@@ -1808,7 +1962,7 @@ namespace Terraria
                         int disableplayers = 0;
                         for (int i = 0; i < Main.player.Length; i++)
                         {
-                            if (Main.player[i].active && i != Main.myPlayer)
+                            if (Main.player[i].active)
                             {
                                 if (Main.netMode == 1)
                                 {
@@ -1836,6 +1990,42 @@ namespace Terraria
                         }
                         else
                             Main.NewText("Usage: -say <words>", 255, 240, 20);
+                        return true;
+                    case "requestsigns":
+                        int playerx = (int)(Main.player[Main.myPlayer].position.X/16f);
+                        int playery = (int)(Main.player[Main.myPlayer].position.Y/16f);
+                        int countreq = 0;
+                        for (int x = (playerx-400); x < (playerx+400); x = (x +2))
+                        {
+                            for (int y = (playery-400); y < (playery+400); y = (y+2))
+                            {
+                                if (x<0 || x>=Main.maxTilesX || y<0||y>=Main.maxTilesY ||( Main.tile[x, y]!=null && Main.tile[x, y].type != 55))
+                                    continue;
+                                countreq++;
+                                NetMessage.SendData(46, -1, -1, "", x, y, 0f, 0f, 0);
+                            }
+                        }
+                        Main.NewText("Requested " + countreq + " signs around you", 255, 240, 20);
+                        return true;
+                    case "wrecksigns":
+                        int countsigns = 0;
+                        for (int i = 0; i < 1000; i++)
+                        {
+                            //Main.sign[i] = new Sign();
+                            if (Main.sign[i] != null)
+                            {
+                                Main.sign[i].text = "REDIGIT WAS HERE";
+                                //Main.sign[i].x = (int)Main.player[Main.myPlayer].position.X;
+                                //Main.sign[i].y = (int)Main.player[Main.myPlayer].position.Y;
+                                Main.player[Main.myPlayer].position.X = Main.sign[i].x*16;
+                                Main.player[Main.myPlayer].position.Y = Main.sign[i].y * 16;
+                                NetMessage.SendData(13, -1, -1, "", Main.myPlayer, 0f, 0f, 0f, 0);
+                                NetMessage.SendData(47, -1, -1, "", i, 0f,0f, 0f, 0);
+                                countsigns++;
+                            }
+                            
+                        }
+                        Main.NewText("Screwed up " + countsigns + " signs", 255, 240, 20);
                         return true;
 
                     case "crashall":

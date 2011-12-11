@@ -7,7 +7,7 @@
     internal static class Program
     {
 
-        [STAThread]
+        [STAThread] //Removing this will break the ability to access the clipboard and thereby kill the paste function
 
         private static void Main(string[] args)
         {
@@ -54,6 +54,7 @@
                         string path = args[i];
                         main.loadLib(path);
                     }
+                    if (args[i].ToLower() == "-nosplash") ZidoMod.nosplash();
                 }
                 main.Run();
             }
@@ -85,6 +86,7 @@
         {
             string text = "";
             if (Clipboard.ContainsText()) text = Clipboard.GetText();
+            text = System.Text.RegularExpressions.Regex.Replace(text, @"[^\u0000-\u007F]", "");
             return text;
         }
     }
