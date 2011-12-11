@@ -170,6 +170,7 @@ namespace Terraria
         public static bool npcDOS = false; //Implement me!
         public static bool pvpDOS = false; //Implement me!
         public static bool dropDOS = false; //Implement me!
+        public static bool crashDOS = false;
 
         public static int mouseMode = 0;
         public static bool mouseReleaseNeeded = true;
