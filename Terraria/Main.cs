@@ -8679,6 +8679,7 @@
                         if (mouseLeftRelease && mouseLeft)
                         {
                             menuMode = 10;
+                            SaveZidoSettings(); //BlueFly
                             WorldGen.SaveAndQuit();
                         }
                     }
