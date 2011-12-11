@@ -9618,19 +9618,15 @@
                 netMode = 0;
                 strArray[0] = "Play Terraria";
                 strArray[1] = "Settings";
-                //strArray[2] = "ZidoMod"; (work in progress) - BlueFly
-                //strArray[3] = "Exit";
-                strArray[2] = "Exit";
+                strArray[2] = "ZidoMod";
+                strArray[3] = "Exit";
                 num6 = 4;
-                /*
                 if (this.selectedMenu == 2)
                 {
                     PlaySound(10, -1, -1, 1);
-                    Main.menuMode = 12;
+                    Main.menuMode = 0x13371;
                 }
                 if (this.selectedMenu == 3)
-                */
-                if (this.selectedMenu == 2)
                 {
                     this.QuitGame();
                 }
@@ -10559,6 +10555,101 @@
                         Main.menuMode = 0x457;
                     }
                 }
+                else if (Main.menuMode == 0x13371)
+                {
+                    num3 = 180;
+                    num5 = 0x30;
+                    numArray[7] = 10;
+                    num6 = 8;
+                    if (ZidoMod.showRadar)
+                    {
+                        strArray[0] = "Turn radar off";
+                    }
+                    else
+                    {
+                        strArray[0] = "Turn radar on";
+                    }
+                    if (ZidoMod.showFps)
+                    {
+                        strArray[1] = "Hide fps";
+                    }
+                    else
+                    {
+                        strArray[1] = "Show fps";
+                    }
+                    strArray[2] = "Fullbright Color";
+                    strArray[3] = "Flashlight Color";
+                    strArray[4] = "Back";
+                    if (this.selectedMenu == 4)
+                    {
+                        PlaySound(11, -1, -1, 1);
+                        SaveZidoSettings();
+                        Main.menuMode = 0;
+                    }
+                    if (this.selectedMenu == 1)
+                    {
+                        PlaySound(12, -1, -1, 1);
+                        ZidoMod.showFps = !ZidoMod.showFps;
+                    }
+                    if (this.selectedMenu == 3)
+                    {
+                        PlaySound(10, -1, -1, 1);
+                        this.selColor = ZidoMod.flashlightcolor;
+                        Main.menuMode = 0x13373;
+                    }
+                    if (this.selectedMenu == 2)
+                    {
+                        PlaySound(10, -1, -1, 1);
+                        this.selColor = ZidoMod.fullbrightcolor;
+                        Main.menuMode = 0x13372;
+                    }
+                    if (this.selectedMenu == 0)
+                    {
+                        PlaySound(12, -1, -1, 1);
+                        //Main.menuMode = 0x457;
+                        ZidoMod.showRadar = !ZidoMod.showRadar;
+                    }
+                }
+                if (Main.menuMode == 0x13372)
+                {
+                    flag = true;
+                    num11 = 370;
+                    num3 = 240;
+                    num5 = 60;
+                    ZidoMod.fullbrightcolor = this.selColor;
+                    num6 = 3;
+                    strArray[0] = "";
+                    strArray[1] = "Fullbright Color";
+                    flagArray[1] = true;
+                    numArray[2] = 170;
+                    numArray[1] = 10;
+                    strArray[2] = "Back";
+                    if (this.selectedMenu == 2)
+                    {
+                        Main.menuMode = 0x13371;
+                        PlaySound(11, -1, -1, 1);
+                    }
+                }
+                if (Main.menuMode == 0x13373)
+                {
+                    flag = true;
+                    num11 = 370;
+                    num3 = 240;
+                    num5 = 60;
+                    ZidoMod.flashlightcolor = this.selColor;
+                    num6 = 3;
+                    strArray[0] = "";
+                    strArray[1] = "Fullbright Color";
+                    flagArray[1] = true;
+                    numArray[2] = 170;
+                    numArray[1] = 10;
+                    strArray[2] = "Back";
+                    if (this.selectedMenu == 2)
+                    {
+                        Main.menuMode = 0x13371;
+                        PlaySound(11, -1, -1, 1);
+                    }
+                }
                 else if (Main.menuMode != 0x6f)
                 {
                     if (Main.menuMode == 0x19)
@@ -10601,7 +10692,7 @@
                     }
                     else if (Main.menuMode == 0x1c)
                     {
-                        caveParrallax = 1f - (((float) this.bgScroll) / 500f);
+                        caveParrallax = 1f - (((float)this.bgScroll) / 500f);
                         flag3 = true;
                         num3 = 240;
                         num5 = 60;
