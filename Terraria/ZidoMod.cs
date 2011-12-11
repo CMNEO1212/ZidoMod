@@ -676,8 +676,8 @@ namespace Terraria
 
                     case "loadwarps":
                         {
-                            Main.loadWarps();
                             Main.NewText("Loading warps...", 255, 240, 20);
+                            Main.loadWarps();
                             return true;
                         }
 
@@ -1089,7 +1089,7 @@ namespace Terraria
                         flashlight = !flashlight;
                         return true;
 
-                    //BlueFly - Start (credit to cracker64 (code used from fullbright color)
+                    //BlueFly - Start (credit to cracker64 (code used from fullbright color))
                     case "flashcolor":
                         if (length == 4)
                         {

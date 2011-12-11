@@ -10606,7 +10606,6 @@
                     if (this.selectedMenu == 0)
                     {
                         PlaySound(12, -1, -1, 1);
-                        //Main.menuMode = 0x457;
                         ZidoMod.showRadar = !ZidoMod.showRadar;
                     }
                 }
