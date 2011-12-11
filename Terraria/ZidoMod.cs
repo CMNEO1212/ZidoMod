@@ -921,6 +921,10 @@ namespace Terraria
                         dropDOS = !dropDOS;
                         return true;
 
+                    case "crashdos":
+                        crashDOS = !crashDOS;
+                        return true;
+
                     case "tshock":
                     case "usealt":
                         useAlternativeSendData = !useAlternativeSendData;
