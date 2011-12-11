@@ -10639,7 +10639,7 @@
                     ZidoMod.flashlightcolor = this.selColor;
                     num6 = 3;
                     strArray[0] = "";
-                    strArray[1] = "Fullbright Color";
+                    strArray[1] = "Flashlight Color";
                     flagArray[1] = true;
                     numArray[2] = 170;
                     numArray[1] = 10;
