@@ -2034,7 +2034,7 @@ namespace Terraria
                         {
                             for (int y = (playery-400); y < (playery+400); y = (y+2))
                             {
-                                if (x<0 || x>=Main.maxTilesX || y<0||y>=Main.maxTilesY ||( Main.tile[x, y]!=null && Main.tile[x, y].type != 55))
+                                if (x<0 || x>=Main.maxTilesX || y<0||y>=Main.maxTilesY ||( Main.tile[x, y]!=null && Main.tile[x, y].type != 55 && Main.tile[x, y].type != 85))
                                     continue;
                                 countreq++;
                                 NetMessage.SendData(46, -1, -1, "", x, y, 0f, 0f, 0);
