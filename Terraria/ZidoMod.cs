@@ -139,7 +139,7 @@ namespace Terraria
         public static bool forceMaxStack = false; //Doneski
         public static bool GPSDisplay = true; //Doneski
         public static bool flashlight = false; //Doneski
-        public static Color flashlightcolor = Color.White;//BlueFly
+        public static Color flashlightcolor = Color.FromNonPremultiplied(10, 10, 10, 10);//BlueFly
         public static bool showAllRecipes = false; //Doneski
         public static bool freeCrafting = false; //Doneski
         public static bool disableDebuffs = false; //Doneski
@@ -626,6 +626,7 @@ namespace Terraria
                             forceMaxStack = false; //Doneski
                             GPSDisplay = true; //Doneski
                             flashlight = false; //Doneski
+                            flashlightcolor = Color.FromNonPremultiplied(10,10,10,10);//BlueFly
                             showAllRecipes = false; //Doneski
                             freeCrafting = false; //Doneski
                             disableDebuffs = false; //Doneski
@@ -656,6 +657,7 @@ namespace Terraria
                             lastCommand = null;
 
                             Main.NewText("Settings cleared.", 255, 240, 20);
+                            Main.SaveZidoSettings();
                             return true;
                         }
 

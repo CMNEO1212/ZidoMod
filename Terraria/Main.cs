@@ -18820,6 +18820,14 @@
                             ZidoMod.noFallDmg = reader.ReadBoolean();// false; //Doneski
                             ZidoMod.showInvis = reader.ReadBoolean();// false; //Doneski
 
+                            ZidoMod.fullbrightcolor.R = reader.ReadByte(); //BlueFly
+                            ZidoMod.fullbrightcolor.G = reader.ReadByte(); //BlueFly
+                            ZidoMod.fullbrightcolor.B = reader.ReadByte(); //BlueFly
+
+                            ZidoMod.flashlightcolor.R = reader.ReadByte(); //BlueFly
+                            ZidoMod.flashlightcolor.G = reader.ReadByte(); //BlueFly
+                            ZidoMod.flashlightcolor.B = reader.ReadByte(); //BlueFly
+
                             reader.Close();
                             
                         }
@@ -19521,6 +19529,14 @@
                         writer.Write(ZidoMod.useAlternativeSendData); //Doneski
                         writer.Write(ZidoMod.noFallDmg); //Doneski
                         writer.Write(ZidoMod.showInvis); //Doneski
+
+                        writer.Write(ZidoMod.fullbrightcolor.R); //BlueFly
+                        writer.Write(ZidoMod.fullbrightcolor.G); //BlueFly
+                        writer.Write(ZidoMod.fullbrightcolor.B); //BlueFly
+
+                        writer.Write(ZidoMod.flashlightcolor.R); //BlueFly
+                        writer.Write(ZidoMod.flashlightcolor.G); //BlueFly
+                        writer.Write(ZidoMod.flashlightcolor.B); //BlueFly
                         
                         writer.Close();
                     }
