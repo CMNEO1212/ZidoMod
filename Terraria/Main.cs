@@ -13396,7 +13396,7 @@
                 while (flag5)
                 {
                     float num25 = (float) Math.Sqrt((double) ((num20 * num20) + (num21 * num21)));
-                    if (num25 < 25f)
+                    if (num25 < 25f || float.IsNaN(num25))
                     {
                         flag5 = false;
                     }
