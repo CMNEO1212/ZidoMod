@@ -28,7 +28,7 @@ namespace Terraria
             }
             catch (Exception e)
             {
-                Main.NewText("Error in command!.",240,20,20);
+                Main.NewText("Error in command! " + e,240,20,20);
                 //print error somewhere?
             }
             return true;
