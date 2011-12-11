@@ -9,6 +9,7 @@ namespace Terraria
 	class ZidoMod
 	{
         public static List<string> helptxt = new List<string> {
+                                                                "save - Saves your current loadout of ZidoMod settings",
                                                                 "bind - Bind a key to a command (place '-' infront of Zido commands)",
                                                                 "unbind - Unbind a key",
                                                                 "wipe - Reset all commands to default",
@@ -45,7 +46,8 @@ namespace Terraria
                                                                 "capstats , fakehealth",
                                                                 "maxstack , infstack - Infinite items.",
                                                                 "gps , pos - Toggles GPS accessory buff",
-                                                                "light , flashlight - Shine",
+                                                                "light , flashlight - A light that follows your cursor",
+                                                                "flashcolor - can set colour of flashlight (-flashcolor [R] [G] [B]",
                                                                 "nodebuff , disabledebuff - No debuffs from enemies",
                                                                 "allowdelbuff - Can right click remove debuffs, On by default.",
                                                                 "maxrespawn fullrespawn - Always respawn with full health",
@@ -137,6 +139,7 @@ namespace Terraria
         public static bool forceMaxStack = false; //Doneski
         public static bool GPSDisplay = true; //Doneski
         public static bool flashlight = false; //Doneski
+        public static Color flashlightcolor = Color.White;//BlueFly
         public static bool showAllRecipes = false; //Doneski
         public static bool freeCrafting = false; //Doneski
         public static bool disableDebuffs = false; //Doneski
@@ -965,6 +968,27 @@ namespace Terraria
                     case "flashlight":
                         flashlight = !flashlight;
                         return true;
+
+                    //BlueFly - Start (credit to cracker64 (code used from fullbright color)
+                    case "flashcolor":
+                        if (length == 4)
+                        {
+                            byte R = 255;
+                            byte G = 255;
+                            byte B = 255;
+                            byte.TryParse(args[1], out R);
+                            byte.TryParse(args[2], out G);
+                            byte.TryParse(args[3], out B);
+                            flashlightcolor.R = R;
+                            flashlightcolor.G = G;
+                            flashlightcolor.B = B;
+                        }
+                        else if(length > 1)
+                        {
+                            Main.NewText("Usage: -flashlight [R] [G] [B]  (0-255 please)", 255, 240, 20);
+                        }
+                        return true;
+                    //BlueFly - End
 
                     case "nodebuff":
                     case "disabledebuff":

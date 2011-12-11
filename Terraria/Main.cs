@@ -4957,7 +4957,7 @@
             mouseHC = false;
             if (ZidoMod.flashlight)
             {
-                Lighting.addLight((int)(((float)Main.mouseX + Main.screenPosition.X) / 16f), (int)(((float)Main.mouseY + Main.screenPosition.Y) / 16f), 1f, 1f, 1f);
+                Lighting.addLight((int)(((float)Main.mouseX + Main.screenPosition.X) / 16f), (int)(((float)Main.mouseY + Main.screenPosition.Y) / 16f), ZidoMod.flashlightcolor.R, ZidoMod.flashlightcolor.G, ZidoMod.flashlightcolor.B);//1f, 1f, 1f); BlueFly
             }
             if (hideUI)
             {
