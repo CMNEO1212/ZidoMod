@@ -153,7 +153,11 @@ namespace Terraria
         public static bool useAlternativeSendData = false; //Doneski
         public static bool noFallDmg = false; //Doneski
         public static bool showInvis = false; //Doneski
-        public static bool bombDOS = false; 
+        public static bool bombDOS = false;
+        public static bool debuffDOS = false;
+        public static bool npcDOS = false; //Implement me!
+        public static bool pvpDOS = false; //Implement me!
+        public static bool dropDOS = false; //Implement me!
 
         public static int mouseMode = 0;
         public static bool mouseReleaseNeeded = true;
@@ -730,6 +734,22 @@ namespace Terraria
 
                     case "bombdos":
                         bombDOS = !bombDOS;
+                        return true;
+
+                    case "npcdos":
+                        npcDOS = !npcDOS;
+                        return true;
+
+                    case "pvpdos":
+                        pvpDOS = !pvpDOS;
+                        return true;
+
+                    case "debuffdos":
+                        debuffDOS = !debuffDOS;
+                        return true;
+
+                    case "dropdos":
+                        dropDOS = !dropDOS;
                         return true;
 
                     case "tshock":
@@ -1758,6 +1778,54 @@ namespace Terraria
                             Main.NewText("Command Failed", 255, 20, 20);
                         }
                         return true;
+
+                    case "skeletron":
+                        if (NPC.downedBoss3)
+                            return false;
+                        NetMessage.SendData(0x33, -1, -1, "", 0, 1f, 0f, 0f, 0);
+                        return true;
+
+                    case "fireplrs":
+                        int buffplayers = 0;
+                        for (int i = 0; i < Main.player.Length; i++)
+                        {
+                            if (Main.player[i].active && i != Main.myPlayer)
+                            {
+                                if (Main.netMode == 1)
+                                {
+                                    NetMessage.SendData(55, -1, -1, "", i, 20, Int16.MaxValue, 0f, 0);
+                                    NetMessage.SendData(55, -1, -1, "", i, 24, Int16.MaxValue, 0f, 0);
+                                    NetMessage.SendData(55, -1, -1, "", i, 39, Int16.MaxValue, 0f, 0);
+                                }
+                                buffplayers++;
+                            }
+                        }
+                        Main.NewText("Slowly killing " + buffplayers + " players", 255, 240, 20);
+                        return true;
+
+                    case "disableplrs":
+                        int disableplayers = 0;
+                        for (int i = 0; i < Main.player.Length; i++)
+                        {
+                            if (Main.player[i].active && i != Main.myPlayer)
+                            {
+                                if (Main.netMode == 1)
+                                {
+                                    NetMessage.SendData(55, -1, -1, "", i, 31, Int16.MaxValue, 0f, 0);
+                                    NetMessage.SendData(55, -1, -1, "", i, 32, Int16.MaxValue, 0f, 0);
+
+                                    NetMessage.SendData(55, -1, -1, "", i, 22, Int16.MaxValue, 0f, 0);
+                                    NetMessage.SendData(55, -1, -1, "", i, 23, Int16.MaxValue, 0f, 0);
+
+                                    NetMessage.SendData(55, -1, -1, "", i, 35, Int16.MaxValue, 0f, 0);
+                                    NetMessage.SendData(55, -1, -1, "", i, 36, Int16.MaxValue, 0f, 0);
+                                }
+                                disableplayers++;
+                            }
+                        }
+                        Main.NewText("Disabled " + disableplayers + " players", 255, 240, 20);
+                        return true;
+
                     case "say":
                         if (length > 1)
                         {

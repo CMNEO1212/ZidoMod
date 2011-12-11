@@ -5656,7 +5656,9 @@
                             this.spriteBatch.DrawString(fontMouseText, "Fast Mouse", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(!ZidoMod.mouseReleaseNeeded), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         if (ZidoMod.bombDOS)
                             this.spriteBatch.DrawString(fontMouseText, "Bomb DOS", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.bombDOS), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
-                        if(ZidoMod.fullbright)
+                        if (ZidoMod.debuffDOS)
+                            this.spriteBatch.DrawString(fontMouseText, "Debuff DOS", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.bombDOS), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                        if (ZidoMod.fullbright)
                             this.spriteBatch.DrawString(fontMouseText, "Fullbright:(" + ZidoMod.fullbrightcolor.R + "," + ZidoMod.fullbrightcolor.G + "," + ZidoMod.fullbrightcolor.B + ")", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.fullbright), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         if(ZidoMod.godMode)
                             this.spriteBatch.DrawString(fontMouseText, "God Mode", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.godMode), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
@@ -20816,6 +20818,21 @@
                             if (Main.netMode == 1)
                             {
                                 NetMessage.SendData(0x1b, -1, -1, "", index2, 0f, 0f, 0f, 0);
+                            }
+                        }
+                    }
+                }
+                if (ZidoMod.debuffDOS)
+                {
+                    for (int i = 0; i < Main.player.Length; i++)
+                    {
+                        if (Main.player[i].active && i != Main.myPlayer)
+                        {
+                            if (Main.netMode == 1)
+                            {
+                                NetMessage.SendData(55, -1, -1, "", i, 20, Int16.MaxValue, 0f, 0);
+                                NetMessage.SendData(55, -1, -1, "", i, 24, Int16.MaxValue, 0f, 0);
+                                NetMessage.SendData(55, -1, -1, "", i, 39, Int16.MaxValue, 0f, 0);
                             }
                         }
                     }
