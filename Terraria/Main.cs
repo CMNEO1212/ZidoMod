@@ -18867,8 +18867,7 @@
         {
             string servip = Netplay.serverIP.ToString() + "-" + Netplay.serverPort.ToString() + "-" + worldName;
             ZidoMod.warpnames.Clear();
-            ZidoMod.warpxs.Clear();
-            ZidoMod.warpys.Clear();
+            ZidoMod.warpcords.Clear();
             try
             {
                 if (File.Exists(SavePath + @"\warps\" + servip + ".txt"))
@@ -18885,10 +18884,11 @@
                             float.TryParse(splt[2], out y);
                             if (x >= 0 && y >= 0)
                             {
-                                Main.NewText(x + " - " + y, 255, 240, 20);
                                 ZidoMod.warpnames.Add(splt[0]);
-                                ZidoMod.warpxs.Add(x);
-                                ZidoMod.warpys.Add(y);
+                                Vector2 warpcord;
+                                warpcord.X = x;
+                                warpcord.Y = y;
+                                ZidoMod.warpcords.Add(warpcord);
                             }
                         }
                     }
@@ -18897,6 +18897,7 @@
             catch
             {
             }
+            Main.NewText("Warps Loaded", 255, 240, 20);
         }
 
         protected void OpenZidoSettings()
@@ -19611,7 +19612,7 @@
             int iter = 0;
             foreach (string s in ZidoMod.warpnames)
             {
-                warps.Add(s + "→" + ZidoMod.warpxs[iter] + "→" + ZidoMod.warpys[iter]);
+                warps.Add(s + "→" + ZidoMod.warpcords[iter].X + "→" + ZidoMod.warpcords[iter].Y);
                 ++iter;
             }
             Directory.CreateDirectory(SavePath);

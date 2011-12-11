@@ -116,8 +116,7 @@ namespace Terraria
         public static List<string> bindings = new List<string> { }; //BlueFly
         public static List<string> bindkeys = new List<string> { }; //BlueFly
         public static List<string> warpnames = new List<string> { }; //BlueFly
-        public static List<float> warpxs = new List<float> { }; //BlueFly
-        public static List<float> warpys = new List<float> { }; //BlueFly
+        public static List<Vector2> warpcords = new List<Vector2> { };//BlueFly
         public static bool cmdLimit = false; //BlueFly
         public static bool fullbright = false; //Doneski
         public static Color fullbrightcolor = Color.White;//cracker64
@@ -593,10 +592,7 @@ namespace Terraria
                         if (warpnames.Contains(warpname))
                         {
                             int warpindex = warpnames.IndexOf(warpname);
-                            Vector2 warppos;
-                            warppos.X = warpxs[warpindex];
-                            warppos.Y = warpys[warpindex];
-                            Main.player[Main.myPlayer].position = warppos;
+                            Main.player[Main.myPlayer].position = warpcords[warpindex];
                             Main.NewText("Warped to " + warpname, 255, 240, 20);
                             return true;
                         }
@@ -622,8 +618,7 @@ namespace Terraria
                             }
                             warpnames.Add(warpnameset);
                             Vector2 playerpos = Main.player[Main.myPlayer].position;
-                            warpxs.Add(playerpos.X);
-                            warpys.Add(playerpos.Y);
+                            warpcords.Add(playerpos);
                             Main.NewText("Warp '" + warpnameset + "' set at '" + playerpos.X + "," + playerpos.Y + "'.", 255, 240, 20);
                             Main.saveWarps();
                             return true;
@@ -642,8 +637,7 @@ namespace Terraria
                             {
                                 int warpindex = warpnames.IndexOf(warpnamedel);
                                 warpnames.RemoveAt(warpindex);
-                                warpxs.RemoveAt(warpindex);
-                                warpys.RemoveAt(warpindex);
+                                warpcords.RemoveAt(warpindex);
                                 Main.NewText("Warp " + warpnamedel + " deleted.", 255, 240, 20);
                                 Main.saveWarps();
                                 return true;
@@ -658,8 +652,7 @@ namespace Terraria
                     case "wipewarps":
                         {
                             warpnames.Clear();
-                            warpxs.Clear();
-                            warpys.Clear();
+                            warpcords.Clear();
                             Main.NewText("All warps deleted.", 255, 240, 20);
                             Main.saveWarps();
                             return true;
