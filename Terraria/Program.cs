@@ -54,6 +54,7 @@
                         string path = args[i];
                         main.loadLib(path);
                     }
+                    if (args[i].ToLower() == "-nosplash") ZidoMod.nosplash();
                 }
                 main.Run();
             }

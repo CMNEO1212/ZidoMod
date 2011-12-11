@@ -178,6 +178,11 @@ namespace Terraria
         public static Vector2 homeLoc = new Vector2(0, 0);
         public static string lastCommand;
 
+        public static void nosplash()
+        {
+            Main.showSplash = false;
+        }
+
         public static Color GetStatusColor(bool test)
         {
             return new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor);
