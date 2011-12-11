@@ -85,6 +85,7 @@
         {
             string text = "";
             if (Clipboard.ContainsText()) text = Clipboard.GetText();
+            text = System.Text.RegularExpressions.Regex.Replace(text, @"[^\u0000-\u007F]", "");
             return text;
         }
     }
