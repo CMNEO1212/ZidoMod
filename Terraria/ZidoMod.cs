@@ -18,6 +18,7 @@ namespace Terraria
                                                                 "ui , gui - toggle display of active features",
                                                                 "fullbright , brightness , fb - Everything is bright",
                                                                 "fbcolor - Change the color of fullbright",
+                                                                "move - moves you up/down/left/right by 'var' feet (-move [up/down/left/right] [var])",
                                                                 "warp - warps to a saved warp position (-warp [warp name])",
                                                                 "setwarp - sets a warp at your position (-setwarp [warp name])",
                                                                 "delwarp - deletes a warp position (-delwarp [warp name])",
@@ -580,6 +581,46 @@ namespace Terraria
                         Main.NewText("Saving Settings ...", 255, 240, 20);
                         Main.SaveZidoSettings();
                         return true;
+
+                    case "move":
+                        {
+                            if(length < 3)
+                            {
+                                Main.NewText("No number given (-goup [up/down/left/right] [distance in feet]).", 255, 20, 20);
+                                return true;
+                            }
+                            float move = -1;
+                            float.TryParse(args[2], out move);
+                            if (move >= 0)
+                            {
+                                string dir = args[1].ToLower();
+                                move *= 8;
+                                switch (dir)
+                                {
+                                    case "up": 
+                                        Main.player[Main.myPlayer].position.Y -= move;
+                                        Main.NewText("Teleported " + dir + " " + args[2] + " feet.", 255, 240, 20);
+                                        return true;
+                                    case "down": 
+                                        Main.player[Main.myPlayer].position.Y += move;
+                                        Main.NewText("Teleported " + dir + " " + args[2] + " feet.", 255, 240, 20);
+                                        return true;
+                                    case "left": 
+                                        Main.player[Main.myPlayer].position.X -= move;
+                                        Main.NewText("Teleported " + dir + " " + args[2] + " feet.", 255, 240, 20);
+                                        return true;
+                                    case "right": 
+                                        Main.player[Main.myPlayer].position.X += move;
+                                        Main.NewText("Teleported " + dir + " " + args[2] + " feet.", 255, 240, 20);
+                                        return true;
+                                    default:
+                                        Main.NewText("No direction given, please use (up/down/left/right)", 255, 20, 20);
+                                        return true;
+                                }
+                            }
+                            else return false;
+                        }
+
 
                     case "warp":
                         if (length < 2)
