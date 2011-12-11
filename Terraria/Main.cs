@@ -15,9 +15,9 @@
     public class Main : Game
     {
         //BlueFly - Start
-        public int chathistnum = 0;
-        public bool togglechatmove = true;
-        public bool togglepaste = true;
+        public static int chathistnum = 0;
+        public static bool togglechatmove = true;
+        public static bool togglepaste = true;
         //BlueFly - End
 
         private static int accSlotCount = 0;
@@ -9618,8 +9618,18 @@
                 netMode = 0;
                 strArray[0] = "Play Terraria";
                 strArray[1] = "Settings";
+                //strArray[2] = "ZidoMod"; (work in progress) - BlueFly
+                //strArray[3] = "Exit";
                 strArray[2] = "Exit";
                 num6 = 4;
+                /*
+                if (this.selectedMenu == 2)
+                {
+                    PlaySound(10, -1, -1, 1);
+                    Main.menuMode = 12;
+                }
+                if (this.selectedMenu == 3)
+                */
                 if (this.selectedMenu == 2)
                 {
                     this.QuitGame();
@@ -10747,23 +10757,8 @@
                     }
                     else if (Main.menuMode == 13)
                     {
-                        //BlueFly - Start
-                        if ((keyState.IsKeyDown(Keys.LeftControl) || keyState.IsKeyDown(Keys.RightControl)) && keyState.IsKeyDown(Keys.V))
-                        {
-                            if (togglepaste)
-                            {
-                                Main.getIP += Program.getClipboardText();
-                                PlaySound(12, -1, -1, 1);
-                            }
-                            togglepaste = false;
-                        }
-                        else
-                        {
-                            togglepaste = true;
-                        }
-                        //BlueFly - End
                         string getIP = Main.getIP;
-                        if(togglepaste)Main.getIP = GetInputText(Main.getIP); //BlueFly
+                        Main.getIP = GetInputText(Main.getIP);
                         if (getIP != Main.getIP)
                         {
                             PlaySound(12, -1, -1, 1);
@@ -15705,6 +15700,21 @@
             {
                 return oldString;
             }
+            //BlueFly - Start
+            if ((keyState.IsKeyDown(Keys.LeftControl) || keyState.IsKeyDown(Keys.RightControl)) && keyState.IsKeyDown(Keys.V))
+            {
+                if (togglepaste)
+                {
+                     oldString += Program.getClipboardText();
+                }
+                togglepaste = false;
+                return oldString;
+            }
+            else
+            {
+                togglepaste = true;
+            }
+            //BlueFly - End
             inputTextEnter = false;
             string str = oldString;
             if (str == null)
@@ -20502,21 +20512,6 @@
                     {
                         togglechatmove = true;
                     }
-
-                    if ((keyState.IsKeyDown(Keys.LeftControl) || keyState.IsKeyDown(Keys.RightControl)) && keyState.IsKeyDown(Keys.V))
-                    {
-                        if (togglepaste)
-                        {
-                            Main.chatText += Program.getClipboardText();
-                            PlaySound(12, -1, -1, 1);
-                        }
-                        togglepaste = false;
-                    }
-                    else
-                    {
-                        togglepaste = true;
-                    }
-
                     //BlueFly - End
                     if (keyState.IsKeyDown(Keys.Escape))
                     {
@@ -20525,7 +20520,7 @@
                     }
 
                     string chatText = Main.chatText;
-                    if (togglepaste)Main.chatText = GetInputText(Main.chatText); //BlueFly
+                    Main.chatText = GetInputText(Main.chatText);
                     while (fontMouseText.MeasureString(Main.chatText).X > 470f)
                     {
                         Main.chatText = Main.chatText.Substring(0, Main.chatText.Length - 1);
