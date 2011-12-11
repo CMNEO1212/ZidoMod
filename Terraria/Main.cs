@@ -18762,6 +18762,41 @@
             }
         }
 
+        public static void loadWarps()
+        {
+            string servip = Netplay.serverIP.ToString() + "-" + Netplay.serverPort.ToString() + "-" + worldName;
+            ZidoMod.warpnames.Clear();
+            ZidoMod.warpxs.Clear();
+            ZidoMod.warpys.Clear();
+            try
+            {
+                if (File.Exists(SavePath + @"\warps\" + servip + ".txt"))
+                {
+                    string[] lines = System.IO.File.ReadAllLines(SavePath + @"\warps\" + servip + ".txt");
+                    foreach (string s in lines)
+                    {
+                        string[] splt = s.Split('→');
+                        if (splt.Length == 3)
+                        {
+                            float x = -1;
+                            float y = -1;
+                            float.TryParse(splt[1], out x);
+                            float.TryParse(splt[2], out y);
+                            if (x >= 0 && y >= 0)
+                            {
+                                Main.NewText(x + " - " + y, 255, 240, 20);
+                                ZidoMod.warpnames.Add(splt[0]);
+                                ZidoMod.warpxs.Add(x);
+                                ZidoMod.warpys.Add(y);
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
 
         protected void OpenZidoSettings()
         {
@@ -19461,6 +19496,27 @@
             try
             {
                 System.IO.File.WriteAllLines(SavePath + @"\bindings.txt",binds);
+            }
+            catch
+            {
+            }
+        }
+
+        public static void saveWarps()
+        {
+            string servip = Netplay.serverIP.ToString() + "-" + Netplay.serverPort.ToString() + "-" + worldName;
+            List<string> warps = new List<string> { };
+            Directory.CreateDirectory(SavePath + @"\warps\");
+            int iter = 0;
+            foreach (string s in ZidoMod.warpnames)
+            {
+                warps.Add(s + "→" + ZidoMod.warpxs[iter] + "→" + ZidoMod.warpys[iter]);
+                ++iter;
+            }
+            Directory.CreateDirectory(SavePath);
+            try
+            {
+                System.IO.File.WriteAllLines(SavePath + @"\warps\" + servip + ".txt", warps);
             }
             catch
             {
