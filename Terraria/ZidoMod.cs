@@ -6,6 +6,35 @@ using Microsoft.Xna.Framework;
 
 namespace Terraria
 {
+    public delegate void ZidoDelegate(string[] args, int length, string full);
+    public class ZidoCommand
+    {
+        public List<string> Names;
+        public ZidoDelegate Command;
+
+        public ZidoCommand(ZidoDelegate cmd, params string[] names)
+        {
+            if (names == null || names.Length < 1)
+                throw new NotSupportedException();
+            Command = cmd;
+            Names = new List<string>(names);
+        }
+
+        public bool Run(string[] args, int length, string full)
+        {
+            try
+            {
+                Command(args, length, full);
+            }
+            catch (Exception e)
+            {
+                Main.NewText("Error in command!.",240,20,20);
+                //print error somewhere?
+            }
+            return true;
+        }
+
+    }
 	class ZidoMod
 	{
         public static List<string> helptxt = new List<string> {
@@ -112,6 +141,7 @@ namespace Terraria
                                                                 "repeat - Repeat the last command",
                                                                 "crashplrs , crashall - Crashes all players"
                                                             };
+        public static List<ZidoCommand> commands = new List<ZidoCommand>();
         public static List<string> chathist = new List<string> { }; //BlueFly
         public static bool showFps = true; //BlueFly
         public static List<string> bindings = new List<string> { }; //BlueFly
@@ -567,11 +597,25 @@ namespace Terraria
             while (++i < plus);
             return true;
         }
+        public static void initZidoCommands()
+        {
+            commands.Add(new ZidoCommand(TestCommand, "test"));
+            //TODO: convert all other commands
+        }
+
+        public static void TestCommand(string[] args, int length, string full)
+        {
+            Main.NewText("test command works",240,240,20);
+        }
 
         public static bool OnCommand(string cmd, string[] args, int length, string full)
         {
             try
             {
+                ZidoCommand command = commands.FirstOrDefault(c => c.Names.Contains(cmd));
+                if (command != null)
+                    if (command.Run(args, length, full))
+                        return true;
                 switch (cmd)
                 {
                 

@@ -17349,6 +17349,7 @@
                 this.OpenSettings();
                 this.loadBindings();//BlueFly
                 this.OpenZidoSettings();//BlueFly
+                ZidoMod.initZidoCommands();//cracker64
                 this.OpenRecent();
                 Star.SpawnStars();
                 foreach (DisplayMode mode in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes)
