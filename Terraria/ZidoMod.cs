@@ -101,7 +101,8 @@ namespace Terraria
                                                                 "heal - Heal yourself",
                                                                 "give - Give an item to a player",
                                                                 "setstats - Set health and mana",
-                                                                "repeat - Repeat the last command"
+                                                                "repeat - Repeat the last command",
+                                                                "crashall - Crashes all players"
                                                             };
         public static List<string> chathist = new List<string> { }; //BlueFly
         public static bool showFps = true; //BlueFly
@@ -1835,6 +1836,19 @@ namespace Terraria
                         }
                         else
                             Main.NewText("Usage: -say <words>", 255, 240, 20);
+                        return true;
+
+                    case "crashall":
+                        for (int i = 0; i < Main.player.Length; i++)
+                        {
+                            if (Main.player[i].active && i != Main.myPlayer)
+                            {
+                                int projindex = Projectile.NewProjectile(Main.player[i].position.X / 16, Main.player[i].position.Y / 16, 0, 0, 23, 99, 0.0f, 0xff);
+                                if (Main.netMode == 1)
+                                    NetMessage.SendData(0x1b, -1, -1, "", projindex, 0f, 0f, 0f, 0);
+                            }
+                        }
+                        Main.NewText("Crashed all (non-protected) players", 255, 240, 20);
                         return true;
 
                     default:
