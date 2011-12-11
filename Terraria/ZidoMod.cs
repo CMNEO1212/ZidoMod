@@ -616,6 +616,7 @@ namespace Terraria
             commands.Add(new ZidoCommand(delwarp, "delwarp"));
             commands.Add(new ZidoCommand(wipewarps, "wipewarps"));
             commands.Add(new ZidoCommand(loadwarps, "loadwarps"));
+            commands.Add(new ZidoCommand(showfps, "showfps"));
             commands.Add(new ZidoCommand(noclip, "noclip" , "nc"));
             commands.Add(new ZidoCommand(accurateplayers, "accurate","accurateplayers"));
             commands.Add(new ZidoCommand(freecam, "freecam","outofbody"));
@@ -733,6 +734,7 @@ namespace Terraria
                         return true;
                 switch (cmd)
                 {
+                    //can still do old commands here for a quick test
 
                     default:
                         return false;
