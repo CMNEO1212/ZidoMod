@@ -5719,7 +5719,7 @@
                         if(ZidoMod.noProjectileSend)
                             this.spriteBatch.DrawString(fontMouseText, "No Projectile", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.noProjectileSend), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         if(ZidoMod.flashlight)
-                            this.spriteBatch.DrawString(fontMouseText, "Flashlight", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.flashlight), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                            this.spriteBatch.DrawString(fontMouseText, "Flashlight:(" + ZidoMod.flashlightcolor.R + "," + ZidoMod.flashlightcolor.G + "," + ZidoMod.flashlightcolor.B + ")", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.flashlight), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         if(ZidoMod.instantRespawn)
                             this.spriteBatch.DrawString(fontMouseText, "Instant Spawn", new Vector2(20f, pos += 20), ZidoMod.GetStatusColor(ZidoMod.instantRespawn), 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                         if(ZidoMod.maxRespawn)
