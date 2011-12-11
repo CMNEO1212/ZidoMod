@@ -7,7 +7,7 @@
     internal static class Program
     {
 
-        [STAThread]
+        [STAThread] //Removing this will break the ability to access the clipboard and thereby kill the paste function
 
         private static void Main(string[] args)
         {
